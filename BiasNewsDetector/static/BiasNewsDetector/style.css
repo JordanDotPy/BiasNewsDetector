@@ -1,0 +1,56 @@
+/* Reset some default browser styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f5f5f5;
+}
+
+/* Header Style */
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 24px;
+}
+
+/* Footer Style */
+footer {
+    background-color: #222;
+    color: #aaa;
+    text-align: center;
+    padding: 20px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.button {
+    display: inline-block;
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 10px 20px; /* Some padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Set a font size */
+    margin: 4px 2px; /* Some margin */
+    cursor: pointer; /* Mouse pointer on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition-duration: 0.4s; /* Add a transition effect (when hovering) */
+}
+
+.button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.button:active {
+    transform: scale(0.98);
+}
