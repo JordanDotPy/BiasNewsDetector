@@ -9,3 +9,7 @@ def home(request):
     context = {}
     return render(request, 'BiasNewsDetector/index.html', context)
 
+
+def get_article(request):
+    context = {}
+    return render(request, 'BiasNewsDetector/get_article.html', context)
