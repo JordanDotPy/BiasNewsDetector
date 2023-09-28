@@ -8,5 +8,17 @@
 <br>
 
 <a href="{% url 'home' %}" class="button">Home</a>
+
+<div class="container">
+    <h2>Submit a Website URL</h2>
+    <form action="{% url 'process_url' %}" method="post">
+        {% csrf_token %}
+        <label for="websiteUrl">Website URL:</label>
+        <input type="url" id="websiteURL" name="websiteURL" required placeholder="https://www.example.com">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
 </body>
 {% endblock %}
