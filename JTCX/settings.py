@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-94!b%&=)(l3gv^e$_(m@1ct7u!-h_ia%f_3ppk3j&nyr80$b9^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,6 +81,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Database for  PostgrSQL, Used within docker when implemented
+"""DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'yourdbname',
+        'USER': 'youruser',
+        'PASSWORD': 'yourpassword',
+        'HOST': 'db',  # This is the name of the service defined in docker-compose.yml
+        'PORT': '5432',
+    }
+}"""
 
 
 # Password validation
