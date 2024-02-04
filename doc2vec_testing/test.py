@@ -1,6 +1,25 @@
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
 import os
-import gensim
-import random
+#import gensim
+import pandas as pd
+import json
+#import random
+
+path_to_jsons = os.path.join('data', 'data', 'jsons')
+dfs = []
+files = []
+
+for file in os.listdir(path_to_jsons):
+	with open(os.path.join(path_to_jsons, file)) as f:
+		dfs.append(pd.json_normalize(json.load(f)))
+
+df = pd.concat(dfs, ignore_index=True)
+with open('doc2vec_testing/output.csv', 'w') as csvout:
+    df.T.to_csv(csvout)
+
+'''
 # Set file names for train and test data
 test_data_dir = os.path.join(gensim.__path__[0], 'test', 'test_data')
 lee_train_file = os.path.join(test_data_dir, 'lee_background.cor')
@@ -35,3 +54,4 @@ print('Test Document ({}): «{}»\n'.format(doc_id, ' '.join(test_corpus[doc_id]
 print(u'SIMILAR/DISSIMILAR DOCS PER MODEL %s:\n' % model)
 for label, index in [('MOST', 0), ('MEDIAN', len(sims)//2), ('LEAST', len(sims) - 1)]:
     print(u'%s %s: «%s»\n' % (label, sims[index], ' '.join(train_corpus[sims[index][0]].words)))
+'''
