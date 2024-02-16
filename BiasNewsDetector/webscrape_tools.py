@@ -15,7 +15,10 @@ def scrape_text_from_url(url):
             # Extract text from the HTML
             text = soup.get_text(separator=' ', strip=True)
 
-            return text
+            # find how many words are in the text
+            words = text.split()
+
+            return text, len(words)
         else:
             return "Error: Unable to fetch the webpage."
     except Exception as e:
