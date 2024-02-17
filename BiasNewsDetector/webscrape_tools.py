@@ -1,8 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+from newspaper import Article
 
 
-def scrape_text_from_url(url):
+def beautifulsoup_scrape(url):
     try:
         # Send a GET request to the URL
         response = requests.get(url)
@@ -23,3 +24,16 @@ def scrape_text_from_url(url):
             return "Error: Unable to fetch the webpage."
     except Exception as e:
         return f"An error occurred: {e}"
+
+
+def newspaper_scrape(url):
+    try:
+        article = Article(url)
+        article.download()
+        article.parse()
+        text = article.text
+        words = text.split()
+        return text, len(words)
+    except Exception as e:
+        return f"An error occurred: {e}", 0
+

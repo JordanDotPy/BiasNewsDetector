@@ -11,9 +11,14 @@
 
 <h2>Received URL</h2>
 <p>The submitted URL is: {{ website_url }}</p>
-<p>The total amount of words is: {{ total_words }}</p>
+<p>BS4 wordcount: {{ bs4_words }}</p>
 <br>
-
-<p>Here is the text from the webpage: {{ website_txt }}</p>
+<p>Newspaper3k wordcount: {{ news_words }}</p>
+<br>
+<!--<p>Here is the Bias Probabilities (negative class first number, positive class second number): {{ bias_probabilities }}</p> -->
+<br>
+<p>BS4 text: {{ bs4_text }}</p>
+<br>
+<p>newspaper3k text: {{ news_text }}</p>
 </body>
 {% endblock %}
