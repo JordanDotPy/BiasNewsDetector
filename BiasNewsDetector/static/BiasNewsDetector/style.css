@@ -21,20 +21,30 @@ header {
     font-size: 24px;
 }
 
-/* Footer Style */
 footer {
     background-color: #222;
     color: #aaa;
     text-align: center;
     padding: 20px 0;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+    height: 50px;
+}
+
+.content {
+    min-height: 100%;
+    /* Equivalent to footer height */
+    margin-bottom: -50px;
+}
+
+.content:after {
+    content: "";
+    display: block;
+    height: 50px; /* Equivalent to footer height */
 }
 
 .button {
     display: inline-block;
-    background-color: #4CAF50; /* Green background */
+    background-color: #E00122;
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 10px 20px; /* Some padding */
@@ -48,9 +58,23 @@ footer {
 }
 
 .button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #FF0000;
 }
 
 .button:active {
     transform: scale(0.98);
 }
+
+/* Submit Button Style */
+.submit-button {
+    background-color: #808080;
+    color: white; /* White text */
+    border: none; /* Remove borders */
+    padding: 12px 24px; /* Top and Bottom Padding, Left and Right Padding */
+    font-size: 16px; /* Text size */
+    cursor: pointer; /* Cursor to pointer to indicate clickable item */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    transition: background-color 0.3s, transform 0.1s; / Smooth transition for background color and transform */
+}
+
+

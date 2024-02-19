@@ -5,13 +5,14 @@
 {% block content %}
 <body>
 
-<a href="{% url 'home' %}" class="button">Home</a>
 <a href="{% url 'article' %}" class="button">Upload Another Article</a>
 <br>
 
 <h2>Received URL</h2>
 <p>The submitted URL is: {{ website_url }}</p>
 <p>BS4 wordcount: {{ bs4_words }}</p>
+<br>
+<p>Spacy Bias Sentences: {{ bias_sentence }}</p>
 <br>
 <p>Newspaper3k wordcount: {{ news_words }}</p>
 <br>

@@ -13,5 +13,8 @@ COPY requirements.txt /code/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+# Download the spaCy English model
+RUN python -m spacy download en_core_web_sm
+
 # Copy project
 COPY . /code/
