@@ -1,25 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+<link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}BND{% endblock %}</title>
+    <title>{% block title %}Bias News Detector{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'BiasNewsDetector/style.css' %}">
 </head>
 <body>
-    <header>
-        <h1>BIAS NEW DETECTOR</h1>
+    <div class="content">
+    <header class="header">
+        <div class="container">
+            <img src="{% static 'images/JTCX_box.png' %}" alt="..." style="height:50px; float: left; margin: 10px"> <!-- Adjust logo size as needed -->
+            <h1>BIAS NEWS DETECTOR</h1>
+            <nav>
+                <div style="background: #222222; margin: -10px">
+                    <a href="{% url 'home' %}" class="button">Home</a>
+                    <a href="{% url 'about' %}" class="button">About JTCX</a>
+                    <a href="{% url 'team' %}" class="button">Meet the Team</a>
+                </div>
+            </nav>
+        </div>
     </header>
 
     <main>
         {% block content %}
-        <!-- This block will be overridden by child templates -->
+        <!-- Content overridden by child templates will go here -->
         {% endblock %}
     </main>
-
+    </div>
     <!--<footer>
-        <h1>CREATED BY JTCX</h1>
+        <h2>CREATED BY JTCX</h2>
     </footer> -->
 </body>
 </html>
+

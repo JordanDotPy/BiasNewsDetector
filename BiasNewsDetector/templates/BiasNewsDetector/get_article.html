@@ -3,8 +3,6 @@
 
 {% block content %}
 <body>
-<a href="{% url 'home' %}" class="button">Home</a>
-
 <div class="container">
     <h2>Submit a Website URL</h2>
     <form action="{% url 'process_url' %}" method="post">
@@ -12,7 +10,7 @@
         <label for="websiteURL">Website URL:</label>
         <input type="url" id="websiteURL" name="websiteURL" required placeholder="https://www.example.com">
         <br>
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit-button">Submit</button>
     </form>
 </div>
 
