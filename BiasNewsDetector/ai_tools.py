@@ -1,7 +1,16 @@
 from transformers import BertTokenizer, TFBertForSequenceClassification
+from sklearn.feature_extraction.text import CountVectorizer
 import tensorflow as tf
 import spacy
 from spacy.matcher import Matcher
+
+
+def read_large_files(file):
+    test = CountVectorizer
+    print(test)
+    with open(file, 'r') as f:
+        for line in f:
+            yield line
 
 
 def find_bias(text):
