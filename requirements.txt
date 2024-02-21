@@ -11,3 +11,4 @@ tensorflow>=2.0.0
 torch==2.2.0
 newspaper3k==0.2.8
 spacy==3.7.4
+scikit-learn>=1.4.0

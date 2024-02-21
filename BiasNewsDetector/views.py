@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from .models import *
 from django.http import JsonResponse
 from BiasNewsDetector.webscrape_tools import beautifulsoup_scrape, newspaper_scrape
-from BiasNewsDetector.ai_tools import analyze_bias, find_bias
+from BiasNewsDetector.ai_tools import analyze_bias, find_bias, read_large_files
 
 
 # Create your views here.
@@ -24,6 +24,27 @@ def about(request):
 
 
 def team(request):
+    liberal = 'BiasNewsDetector/ai_model/text_data/liberal.txt'
+    conservative = 'BiasNewsDetector/ai_model/text_data/conservative.txt'
+    con = read_large_files(conservative)
+    x = 0
+    while next(con) is not None:
+        try:
+            print(next(con))
+        except StopIteration:
+            break
+        x += 1
+
+    lib = read_large_files(liberal)
+
+    x = 0
+    while next(lib) is not None:
+        try:
+            print(next(lib))
+        except StopIteration:
+            break
+        x += 1
+
     context = {}
     return render(request, 'BiasNewsDetector/team.html', context)
 
