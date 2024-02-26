@@ -15,6 +15,8 @@ RUN pip install -r requirements.txt
 
 # Download the spaCy English model
 RUN python -m spacy download en_core_web_sm
+# download TextBlob model
+RUN python -m textblob.download_corpora
 
 # Copy project
 COPY . /code/

@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import tensorflow as tf
 import spacy
 from spacy.matcher import Matcher
+from spacytextblob.spacytextblob import SpacyTextBlob
 
 
 def read_large_files(file):
@@ -80,3 +81,31 @@ def analyze_bias(text):
 
     # Return the analysis result
     return {'probabilities': probabilities_json}
+
+
+def ner_sentiment_analysis(text):
+    nlp = spacy.load("en_core_web_sm")
+    if not nlp.has_pipe("spacytextblob"):
+        nlp.add_pipe('spacytextblob')
+    doc = nlp(text)
+
+    # Iterate over the detected entities
+    for ent in doc.ents:
+        if ent.label_ == 'PERSON':
+            # Extract the sentence containing the PERSON entity
+            sentence = ent.sent
+            # Access the sentiment attributes directly from the sentence span
+            sentiment_score = sentence._.blob.polarity
+            sentiment_subjectivity = sentence._.blob.subjectivity
+
+            # Determine sentiment polarity
+            if sentiment_score > 0:
+                sentiment = "Positive"
+            elif sentiment_score < 0:
+                sentiment = "Negative"
+            else:
+                sentiment = "Neutral"
+
+            print(f"Entity: {ent.text} ({ent.label_})")
+            print(f"Entity Sentence: {sentence}")
+            print(f"Sentiment: {sentiment}, Score: {sentiment_score}, Subjectivity: {sentiment_subjectivity}\n")

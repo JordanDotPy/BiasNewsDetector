@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from .models import *
 from django.http import JsonResponse
 from BiasNewsDetector.webscrape_tools import beautifulsoup_scrape, newspaper_scrape
-from BiasNewsDetector.ai_tools import analyze_bias, find_bias, read_large_files
+from BiasNewsDetector.ai_tools import analyze_bias, find_bias, read_large_files, ner_sentiment_analysis
 
 
 # Create your views here.
@@ -57,6 +57,8 @@ def process_article(request):
 
         # bias_analysis = analyze_bias(website_txt)
         bias_sentence_list = find_bias(newspaper_text)
+        # Find all named entities within the article and provide sentiment analysis
+        ner_sentiment_analysis(newspaper_text)
         # Render another template and pass the URL as context
         context = {'website_url': website_url,
                    'bs4_text': bs4_text,
