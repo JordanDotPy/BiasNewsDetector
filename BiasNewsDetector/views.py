@@ -58,7 +58,7 @@ def process_article(request):
         # bias_analysis = analyze_bias(website_txt)
         bias_sentence_list = find_bias(newspaper_text)
         # Find all named entities within the article and provide sentiment analysis
-        ner_sentiment_analysis(newspaper_text)
+        ner_bias_sentences = ner_sentiment_analysis(newspaper_text)
         # Render another template and pass the URL as context
         context = {'website_url': website_url,
                    'bs4_text': bs4_text,
@@ -66,6 +66,7 @@ def process_article(request):
                    'news_text':newspaper_text,
                    'bias_probabilities': None,
                    'bias_sentence': bias_sentence_list,
+                   'analysis_results': ner_bias_sentences,
                    'bs4_words': bs4_words}
         return render(request, 'BiasNewsDetector/process_article.html', context)
 

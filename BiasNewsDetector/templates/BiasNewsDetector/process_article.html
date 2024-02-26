@@ -16,7 +16,9 @@
 <br>
 <p>Newspaper3k wordcount: {{ news_words }}</p>
 <br>
-<!--<p>Here is the Bias Probabilities (negative class first number, positive class second number): {{ bias_probabilities }}</p> -->
+{% for result in analysis_results %}
+    <p class="{{ result.sentiment }}">{{ result.sentence }}</p>
+{% endfor %}
 <br>
 <p>BS4 text: {{ bs4_text }}</p>
 <br>

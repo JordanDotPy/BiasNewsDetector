@@ -84,6 +84,7 @@ def analyze_bias(text):
 
 
 def ner_sentiment_analysis(text):
+    results = []
     nlp = spacy.load("en_core_web_sm")
     if not nlp.has_pipe("spacytextblob"):
         nlp.add_pipe('spacytextblob')
@@ -106,6 +107,13 @@ def ner_sentiment_analysis(text):
             else:
                 sentiment = "Neutral"
 
+            results.append({
+                "sentence": sentence.text,
+                "sentiment": sentiment,
+                "entity": ent.text
+            })
             print(f"Entity: {ent.text} ({ent.label_})")
             print(f"Entity Sentence: {sentence}")
             print(f"Sentiment: {sentiment}, Score: {sentiment_score}, Subjectivity: {sentiment_subjectivity}\n")
+
+    return results

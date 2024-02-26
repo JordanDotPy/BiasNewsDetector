@@ -77,4 +77,17 @@ footer {
     transition: background-color 0.3s, transform 0.1s; / Smooth transition for background color and transform */
 }
 
+.Positive {
+    background-color: lightgreen;
+}
+
+.Negative {
+    background-color: lightcoral;
+}
+
+.Neutral {
+    background-color: lightgrey;
+}
+
+
 
