@@ -91,9 +91,10 @@ def ner_sentiment_analysis(text):
     doc = nlp(text)
 
     # Iterate over the detected entities
+    relevant_entities = ['PERSON', 'ORG', 'GPE']
     for ent in doc.ents:
-        if ent.label_ == 'PERSON':
-            # Extract the sentence containing the PERSON entity
+        if ent.label_ in relevant_entities:
+            # Extract the sentence containing the PERSON, ORG, or GPE entity
             sentence = ent.sent
             # Access the sentiment attributes directly from the sentence span
             sentiment_score = sentence._.blob.polarity
