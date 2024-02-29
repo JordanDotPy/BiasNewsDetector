@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+<!-- Load an icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <head>
     <meta charset="UTF-8">
@@ -13,15 +15,13 @@
     <div class="content">
     <header class="header">
         <div class="container">
-            <img src="{% static 'images/JTCX_box.png' %}" alt="..." style="height:50px; float: left; margin: 10px"> <!-- Adjust logo size as needed -->
-            <h1 style="padding-top: 2%; padding-bottom: 2%">BIAS NEWS DETECTOR</h1>
-            <nav>
-                <div style="background: #222222; margin: -10px">
-                    <a href="{% url 'home' %}" class="button">Home</a>
-                    <a href="{% url 'about' %}" class="button">About JTCX</a>
-                    <a href="{% url 'team' %}" class="button">Meet the Team</a>
-                </div>
-            </nav>
+            <img src="{% static 'images/JTCX_BOXLOGO.png' %}" alt="..." class="box_logo">
+            <h1 style="padding-top: 2%; padding-bottom: 2%;">BIAS NEWS DETECTOR</h1>
+            <div class="navbar" style="margin: -10px; padding-left: 25.3%;">
+              <a class="active" href="{% url 'home' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+              <a href="{% url 'about' %}"><i class="fa fa-fw fa-globe"></i>About JTCX</a>
+              <a href="{% url 'team' %}"><i class="fa fa-fw fa-user"></i>Meet the Developers</a>
+            </div>
         </div>
     </header>
 

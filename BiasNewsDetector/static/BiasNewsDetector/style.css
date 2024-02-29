@@ -25,6 +25,42 @@ h2 {
      padding-bottom: 10px;
 }
 
+.box_logo {
+    height: 175px;
+    float: left;
+    padding-left: 25%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    margin-right: -30%;
+}
+
+/* Style the navigation bar */
+.navbar {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+}
+
+/* Navbar links */
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+  background-color: #000;
+}
+
+/* Current/active navbar link */
+.active {
+  background-color: #E00122;
+}
+
 .url-submission-box {
     border: 2px solid #555;
     width: 100%;
@@ -38,8 +74,8 @@ input[type="url"] {
 
 .content-section {
     text-align: left;
-    padding-left: 30%;
-    padding-right: 30%;
+    padding-left: 25%;
+    padding-right: 25%;
 }
 
 header {
