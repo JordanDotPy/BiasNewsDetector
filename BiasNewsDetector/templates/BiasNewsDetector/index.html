@@ -3,10 +3,38 @@
 
 {% block content %}
 <body>
-
-<p>We are in Bias News Detector</p>
-<br>
-
-<a href="{% url 'article' %}" class="button">Get Started</a>
+<div class="content-section">
+    <h1>Welcome to the News Bias Detector</h1>
+    <p>
+        In an era where information is abundant, distinguishing between factual reporting and biased narratives has never been more critical.
+        The News Bias Detector is an innovative tool designed to illuminate the subtle shades of bias present in news articles across the spectrum.
+        Our mission is to promote media literacy and empower readers to critically engage with the content they consume daily.
+    </p>
+    <h2>Our Mission</h2>
+    <p>
+        We aim to enhance transparency in news reporting by providing an analytical lens through which readers can view the objectivity of news articles.
+        By leveraging advanced natural language processing and machine learning techniques,
+        the News Bias Detector evaluates the sentiment and language patterns within news content to identify potential biases.
+    </p>
+    <h2>How It Works</h2>
+    <p>
+        <strong>1. Input:</strong> Users submit the URL of a news article they wish to analyze.<br>
+        <strong>2. Analysis:</strong> Our system processes the article, using a sophisticated algorithm that examines word usage, sentence structure, and overall sentiment.<br>
+        <strong>3. Results:</strong> The bias rating, along with a detailed report, is presented to the user. This report highlights sentences or phrases that may indicate a biased viewpoint, offering users insights into how the information is framed.
+    </p>
+    <h2>Why This Matters</h2>
+    <p>
+        In fostering a more informed public, the News Bias Detector contributes to a healthier democratic society.
+        By understanding the biases in the news we read, we can appreciate the complexity of issues, recognize diverse perspectives,
+        and make more informed decisions.
+    </p>
+    <h2>Get Started</h2>
+    <p>
+        Explore our tool today to uncover the biases in your news reading.
+        Whether you're researching for academic purposes, seeking to broaden your understanding of current events, or simply curious,
+        the News Bias Detector is here to illuminate the unseen, promoting a more informed and critical approach to news consumption.
+    </p>
+    <a href="{% url 'article' %}" class="button">Get Started</a>
+</div>
 </body>
 {% endblock %}
