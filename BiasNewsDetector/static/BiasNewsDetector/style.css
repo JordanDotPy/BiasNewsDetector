@@ -158,5 +158,34 @@ footer {
     background-color: lightgrey;
 }
 
+.profile-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
 
+.row {
+    display: flex;
+    border-bottom: 1px solid #ccc; /* Added border-bottom for visual separation */
+}
 
+.profile {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+.profile img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.info {
+    flex: 2;
+    padding: 20px;
+}

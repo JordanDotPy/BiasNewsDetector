@@ -4,6 +4,7 @@ import tensorflow as tf
 import spacy
 from spacy.matcher import Matcher
 from spacytextblob.spacytextblob import SpacyTextBlob
+from keyword_spacy import KeywordExtractor
 
 
 def read_large_files(file):
@@ -99,6 +100,10 @@ def ner_sentiment_analysis(text):
             # Access the sentiment attributes directly from the sentence span
             sentiment_score = sentence._.blob.polarity
             sentiment_subjectivity = sentence._.blob.subjectivity
+
+            # Ignore sentences below thresholds
+            if sentiment_subjectivity < 0.25 or (sentiment_score > -0.5 and sentiment_score <= 0) or (sentiment_score < 0.5 and sentiment_score >= 0):
+                continue
 
             # Determine sentiment polarity
             if sentiment_score > 0:
