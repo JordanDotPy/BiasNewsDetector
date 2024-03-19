@@ -83,18 +83,6 @@ DATABASES = {
     }
 }
 
-# Database for  PostgrSQL, Used within docker when implemented
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yourdbname',
-        'USER': 'youruser',
-        'PASSWORD': 'yourpassword',
-        'HOST': 'db',  # This is the name of the service defined in docker-compose.yml
-        'PORT': '5432',
-    }
-}"""
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
