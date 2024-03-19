@@ -4,24 +4,19 @@
 
 {% block content %}
 <body>
+<div class="content-section">
+    <h1 style="text-align: center">FINISHED PROCESSING</h1>
+    <h2 style="text-align: center">{{ news_title }}</h2>
+    <br>
+    <p>Newspaper3k wordcount: {{ news_words }}</p>
+    <br>
+    {% for result in analysis_results %}
+        <p class="{{ result.sentiment }}">{{ result.sentence }}</p>
+    {% endfor %}
+    <br>
 
-<a href="{% url 'article' %}" class="button">Upload Another Article</a>
-<br>
-
-<h2>Received URL</h2>
-<p>The submitted URL is: {{ website_url }}</p>
-<p>BS4 wordcount: {{ bs4_words }}</p>
-<br>
-<p>Spacy Bias Sentences: {{ bias_sentence }}</p>
-<br>
-<p>Newspaper3k wordcount: {{ news_words }}</p>
-<br>
-{% for result in analysis_results %}
-    <p class="{{ result.sentiment }}">{{ result.sentence }}</p>
-{% endfor %}
-<br>
-<p>BS4 text: {{ bs4_text }}</p>
-<br>
-<p>newspaper3k text: {{ news_text }}</p>
+    <p>newspaper3k text: {{ news_text }}</p>
+    <a href="{% url 'article' %}" class="button">Upload Another Article</a>
+</div>
 </body>
 {% endblock %}

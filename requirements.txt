@@ -12,3 +12,6 @@ torch==2.2.0
 newspaper3k==0.2.8
 spacytextblob==4.0.0
 scikit-learn>=1.4.0
+keyword-spacy==0.0.1
+tf-keras
+gensim==4.3.2

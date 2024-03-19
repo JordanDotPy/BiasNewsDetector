@@ -2,124 +2,203 @@ from transformers import BertTokenizer, TFBertForSequenceClassification
 from sklearn.feature_extraction.text import CountVectorizer
 import tensorflow as tf
 import spacy
+import numpy as np
+import re
 from spacy.matcher import Matcher
 from spacytextblob.spacytextblob import SpacyTextBlob
 from keyword_spacy import KeywordExtractor
+from gensim.models import Word2Vec
 
 
-def read_large_files(file):
-    test = CountVectorizer
-    print(test)
+def lexicon_reader(file):
     with open(file, 'r') as f:
         for line in f:
             yield line
 
 
-def find_bias(text):
-    nlp = spacy.load("en_core_web_sm")
-
-    # Define rule-based patterns for bias or factual statements
-    bias_patterns = [[{"LOWER": "clearly"}], [{"LOWER": "obviously"}], [{"LOWER": "worst"}], [{"LOWER": "best"}], [{"LOWER": "unfair"}], [{"LOWER": "crazy"}], [{"LOWER": "fair"}], [{"LOWER": "significant"}]]
-    fact_patterns = [[{"POS": "PROPN"}, {"POS": "VERB"}, {"POS": "DET"}, {"POS": "NOUN"}]]  # Simplified example
-
-    matcher = Matcher(nlp.vocab)
-    matcher.add("BIAS", bias_patterns)
-    matcher.add("FACT", fact_patterns)
-
-    doc = nlp(text)
-
-    ''''# Tokenization
-    for token in doc:
-        print(token.text)
-
-    # Linguistic Annotations
-    print("Linguistic Annotations\n")
-    for token in doc:
-        print(token.text, token.pos_, token.dep_)
-
-    # Parts of Speech Tags and Dependencies
-    print("Parts of Speech Tags and Dependencies\n")
-    for token in doc:
-        print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_,
-              token.shape_, token.is_alpha, token.is_stop)
-
-    # Named Entities
-    print("Named Entities\n")
-    for ent in doc.ents:
-        print(ent.text, ent.start_char, ent.end_char, ent.label_)'''
-
-    # Find matches
-    matches = matcher(doc)
-    # Extract sentences containing the matches
-    bias_sentences = set()
-    for match_id, start, end in matches:
-        span = doc[start:end]  # The matched span
-        sentence = span.sent  # The sentence containing the matched span
-        bias_sentences.add(sentence.text)
-
-    bias_sentences = list(bias_sentences)  # Convert to list if you need ordered sentences
-    print(bias_sentences)
-    return bias_sentences
+def cosine_similarity(vec1, vec2):
+    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
 
-def analyze_bias(text):
-    # Load tokenizer and model
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=2)
-
-    # Tokenize text and manage long texts
-    inputs = tokenizer(text, return_tensors="tf", padding=True, truncation=True, max_length=512)
-
-    # Make predictions
-    outputs = model(inputs)
-    logits = outputs.logits
-
-    # Apply softmax to convert logits to probabilities
-    probabilities = tf.nn.softmax(logits, axis=-1)
-
-    # Convert probabilities to JSON serializable format
-    probabilities_json = probabilities.numpy().tolist()
-
-    # Return the analysis result
-    return {'probabilities': probabilities_json}
+def find_quoted_text_in_sentence(sentence):
+    # Regex pattern for finding text within double or single quotes
+    pattern = r'(?:"([^"]*)"[\s,]*(said|stated|comments|commented|reports|reported|—|she said|he said))|(he said|she said|said|stated|comments|commented|reports|reported|—)[\s,]*"([^"]*)"'
+    # Find all matches of the pattern in the sentence
+    matches = re.findall(pattern, sentence.text, re.IGNORECASE)
+    if matches:
+        return sentence
+    else:
+        return None
 
 
-def ner_sentiment_analysis(text):
-    results = []
-    nlp = spacy.load("en_core_web_sm")
+def load_lexicon(filename):
+    lexicon = []
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            # Strip whitespace and newline characters, then add the word to the list
+            word = line.strip()
+            if word:  # Make sure the line is not empty
+                lexicon.append(word)
+    return lexicon
+
+
+def compare_word_to_lexicons(word, positive_model, negative_model):
+    positive_similarity = 0
+    negative_similarity = 0
+    positive_count = 0
+    negative_count = 0
+
+    if word in positive_model.wv.key_to_index:
+        for vocab_word in positive_model.wv.index_to_key:
+            positive_similarity += positive_model.wv.similarity(word, vocab_word)
+            positive_count += 1
+    if word in negative_model.wv.key_to_index:
+        for vocab_word in negative_model.wv.index_to_key:
+            negative_similarity += negative_model.wv.similarity(word, vocab_word)
+            negative_count += 1
+
+    # Avoid division by zero
+    positive_avg = positive_similarity / positive_count if positive_count else 0
+    negative_avg = negative_similarity / negative_count if negative_count else 0
+
+    if positive_avg > negative_avg:
+        return "positive", positive_avg
+    elif negative_avg > positive_avg:
+        return "negative", negative_avg
+    else:
+        return "neutral", 0
+
+
+def full_article_sentiment_analysis(text):
+    # Load spaCy model and add SpacyTextBlob pipe if it's not already added
+    text = text.replace("\n", "")
+    nlp = spacy.load("en_core_web_md")
     if not nlp.has_pipe("spacytextblob"):
         nlp.add_pipe('spacytextblob')
+
+    conservative_model = Word2Vec.load("BiasNewsDetector/ai_model/conservative.model")
+    liberal_model = Word2Vec.load("BiasNewsDetector/ai_model/liberal.model")
+    general_model = Word2Vec.load("BiasNewsDetector/ai_model/generic_lexicon.model")
+    positive_model = Word2Vec.load("BiasNewsDetector/ai_model/positive_lexicon.model")
+    negative_model = Word2Vec.load("BiasNewsDetector/ai_model/negative_lexicon.model")
+
     doc = nlp(text)
+    # Initialize lists to store sentences based on sentiment
+    positive_sentences = []
+    negative_sentences = []
+    neutral_sentences = []
+    entities_sentences = []
+    all_sentences = []
+    quoted_sentences = []
+    analyzed_sentences = set()
 
-    # Iterate over the detected entities
-    relevant_entities = ['PERSON', 'ORG', 'GPE']
-    for ent in doc.ents:
-        if ent.label_ in relevant_entities:
-            # Extract the sentence containing the PERSON, ORG, or GPE entity
-            sentence = ent.sent
-            # Access the sentiment attributes directly from the sentence span
-            sentiment_score = sentence._.blob.polarity
-            sentiment_subjectivity = sentence._.blob.subjectivity
+    for d in doc:
+        sentence = d.sent
+        if sentence in analyzed_sentences or sentence == "":
+            continue  # Skip this sentence if it has already been analyzed
 
-            # Ignore sentences below thresholds
-            if sentiment_subjectivity < 0.25 or (sentiment_score > -0.5 and sentiment_score <= 0) or (sentiment_score < 0.5 and sentiment_score >= 0):
-                continue
+        analyzed_sentences.add(sentence)  # Add sentence text to the set
+        quoted_sentences.append(find_quoted_text_in_sentence(sentence))
+        sentiment_score = sentence._.blob.polarity
+        sentiment_subjectivity = sentence._.blob.subjectivity
 
-            # Determine sentiment polarity
+        # Dependency Parsing
+        sentiment_adjustment = 0
+        print("=====DEPENDENCY PARSING=====")
+        for token in sentence:
+            # Check for negation
+            if token.dep_ == "neg":
+                print(f"--- Negation found: {token.text} | modifying: {token.head.text}")
+                print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
+                sentiment, avg_similarity = compare_word_to_lexicons(token.text, positive_model, negative_model)
+                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
+                # sentiment_adjustment -= 0.1  # Example adjustment value
+
+            # Check for intensifiers
+            elif token.dep_ in ['amod', 'advmod'] and token.head.pos_ in ['NOUN', 'VERB', 'ADJ']:
+                print(f"--- Intensifier found: {token.text} | modifying: {token.head.text}")
+                print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
+                sentiment, avg_similarity = compare_word_to_lexicons(token.text, positive_model, negative_model)
+                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
+                # sentiment_adjustment += 0.15  # Example adjustment value
+
+            elif token.dep_ == "nsubj":
+                # Analyze if the subject is associated with biased or charged descriptions
+                print(f"Subject found in Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
+                sentiment, avg_similarity = compare_word_to_lexicons(token.text, positive_model, negative_model)
+                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
+
+            elif token.dep_ == "dobj":
+                # Analyze if the object is associated with biased or charged descriptions
+                print(f"Object found in Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
+                sentiment, avg_similarity = compare_word_to_lexicons(token.text, positive_model, negative_model)
+                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
+
+        # check if sentence has a named entity
+        has_named_entity = any(ent for ent in doc.ents if ent.sent == sentence)
+        # list out all named entities within the sentence
+        relevant_entities = ['PERSON', 'ORG', 'GPE', 'EVENT', 'LAW', 'PRODUCT']
+        entity_classifier = [ent.text for ent in doc.ents if ent.sent == sentence and ent.label_ in relevant_entities]
+
+        # Ignore sentences below thresholds
+        if sentiment_subjectivity < 0.15 or (-0.5 < sentiment_score <= 0) or (0.5 > sentiment_score >= 0):
+            sentiment = 'Neutral'
+            # Neutral Sentiment Sentence with Named Entity
+            if has_named_entity and entity_classifier != []:
+                entities_sentences.append({
+                    "sentence": sentence.text,
+                    "sentiment": sentiment,
+                    "entity": entity_classifier,
+                    'score': sentiment_score
+                })
+            # Neutral Sentiment Sentence
+            else:
+                neutral_sentences.append({
+                    "sentence": sentence.text,
+                    "sentiment": sentiment,
+                    'score': sentiment_score
+                })
+        else:
             if sentiment_score > 0:
                 sentiment = "Positive"
-            elif sentiment_score < 0:
-                sentiment = "Negative"
+                # Positive Sentiment Sentence with Named Entity
+                if has_named_entity and entity_classifier != []:
+                    entities_sentences.append({
+                        "sentence": sentence.text,
+                        "sentiment": sentiment,
+                        "entity": entity_classifier,
+                        'score': sentiment_score
+                    })
+                # Positive Sentiment Sentence
+                else:
+                    positive_sentences.append({
+                        "sentence": sentence.text,
+                        "sentiment": sentiment,
+                        'score': sentiment_score
+                    })
             else:
-                sentiment = "Neutral"
+                sentiment = "Negative"
+                # Negative Sentiment Sentence with Named Entity
+                if has_named_entity and entity_classifier != []:
+                    entities_sentences.append({
+                        "sentence": sentence.text,
+                        "sentiment": sentiment,
+                        "entity": entity_classifier,
+                        'score': sentiment_score
+                    })
+                # Negative Sentiment Sentence
+                else:
+                    negative_sentences.append({
+                        "sentence": sentence.text,
+                        "sentiment": sentiment,
+                        'score': sentiment_score
+                    })
 
-            results.append({
-                "sentence": sentence.text,
-                "sentiment": sentiment,
-                "entity": ent.text
-            })
-            print(f"Entity: {ent.text} ({ent.label_})")
-            print(f"Entity Sentence: {sentence}")
-            print(f"Sentiment: {sentiment}, Score: {sentiment_score}, Subjectivity: {sentiment_subjectivity}\n")
+        all_sentences.append({
+            "sentence": sentence.text,
+            "sentiment": sentiment,
+            "has_entity": has_named_entity,
+            'score': sentiment_score
+        })
 
-    return results
+    return positive_sentences, negative_sentences, neutral_sentences, entities_sentences, quoted_sentences, all_sentences

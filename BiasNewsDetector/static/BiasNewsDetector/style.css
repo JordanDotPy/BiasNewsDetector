@@ -148,14 +148,16 @@ footer {
 
 .Positive {
     background-color: lightgreen;
+    padding: 0 0 0 0;
 }
 
 .Negative {
     background-color: lightcoral;
+    padding: 0 0 0 0;
 }
 
 .Neutral {
-    background-color: lightgrey;
+    padding: 0 0 0 0;
 }
 
 .profile-container {
