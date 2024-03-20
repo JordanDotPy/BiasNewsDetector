@@ -11,7 +11,7 @@
     <p>Newspaper3k wordcount: {{ news_words }}</p>
     <br>
     {% for result in analysis_results %}
-        <p class="{{ result.sentiment }}">{{ result.sentence }}</p>
+        <span class="{{ result.sentiment }}">{{ result.sentence }}&nbsp;</span>
     {% endfor %}
     <br>
 
