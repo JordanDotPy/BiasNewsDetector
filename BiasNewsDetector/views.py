@@ -3,7 +3,7 @@ from django.template import loader
 from django.http import HttpResponseRedirect
 from .models import *
 from django.http import JsonResponse
-from BiasNewsDetector.webscrape_tools import newspaper_scrape
+from BiasNewsDetector.webscrape_tools import newspaper_scrape, newspaper_scrape2
 from BiasNewsDetector.ai_tools import full_article_sentiment_analysis
 
 
@@ -34,7 +34,7 @@ def process_article(request):
         newspaper_title, newspaper_text, newspaper_words = newspaper_scrape(website_url)
 
         # Find all named entities within the article and provide sentiment analysis
-        p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text)
+        p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text, newspaper_title)
         print("=====POSITIVE SENTENCES=====")
         print(p_sentence)
         print("=====NEGATIVE SENTENCES=====")
