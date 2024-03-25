@@ -8,16 +8,16 @@ from spacy.matcher import Matcher
 from spacytextblob.spacytextblob import SpacyTextBlob
 from keyword_spacy import KeywordExtractor
 from gensim.models import Word2Vec
+import torch
+from transformers import BertTokenizer,BertModel
+from sentence_transformers import SentenceTransformer, util
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 def lexicon_reader(file):
     with open(file, 'r') as f:
         for line in f:
             yield line
-
-
-def cosine_similarity(vec1, vec2):
-    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
 
 def find_quoted_text_in_sentence(sentence):
@@ -63,12 +63,12 @@ def compare_word_to_lexicons(word, positive_model, negative_model, sc):
 
     if positive_avg > negative_avg:
         sc += 0.12
-        return "positive", positive_avg, sc
+        return "Positive", positive_avg, sc
     elif negative_avg > positive_avg:
         sc -= 0.12
-        return "negative", negative_avg, sc
+        return "Negative", negative_avg, sc
     else:
-        return "neutral", 0, sc
+        return "Neutral", 0, sc
 
 
 def full_article_sentiment_analysis(text, title):
@@ -78,9 +78,6 @@ def full_article_sentiment_analysis(text, title):
     if not nlp.has_pipe("spacytextblob"):
         nlp.add_pipe('spacytextblob')
 
-    conservative_model = Word2Vec.load("BiasNewsDetector/ai_model/conservative.model")
-    liberal_model = Word2Vec.load("BiasNewsDetector/ai_model/liberal.model")
-    general_model = Word2Vec.load("BiasNewsDetector/ai_model/generic_lexicon.model")
     positive_model = Word2Vec.load("BiasNewsDetector/ai_model/positive_lexicon.model")
     negative_model = Word2Vec.load("BiasNewsDetector/ai_model/negative_lexicon.model")
 
@@ -140,7 +137,7 @@ def full_article_sentiment_analysis(text, title):
                 print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
 
         # Ignore sentences below thresholds
-        if sentiment_subjectivity < 0.15 or (-0.5 < sentiment_score <= 0) or (0.5 > sentiment_score >= 0):
+        if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0):
             sentiment = 'Neutral'
             # Neutral Sentiment Sentence with Named Entity
             if has_named_entity and entity_classifier != []:
@@ -200,4 +197,41 @@ def full_article_sentiment_analysis(text, title):
             'score': sentiment_score
         })
 
+    sentence_embedding(all_sentences)
+
     return positive_sentences, negative_sentences, neutral_sentences, entities_sentences, quoted_sentences, all_sentences
+
+
+def generate_embeddings(sentence_list, model):
+    sentences = [sentence_dict['sentence'] for sentence_dict in sentence_list]
+    embeddings = model.encode(sentences)
+    return embeddings
+
+
+def sentence_embedding(all_sentences):
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+    all_embeddings = generate_embeddings(all_sentences, model)
+
+    for idx, all_embedding in enumerate(all_embeddings):
+        # Exclude the current sentence for self-comparison by creating a new array without the current sentence
+        other_all_embeddings = np.concatenate([all_embeddings[:idx], all_embeddings[idx + 1:]], axis=0)
+        other_all_sentences = np.concatenate([all_sentences[:idx], all_sentences[idx + 1:]], axis=0)
+
+        # Extract the embedding for the target sentence
+        target_embedding = all_embeddings[idx].reshape(1, -1)  # Reshape for cosine_similarity
+
+        # Calculate cosine similarity between target and all other sentences
+        similarities = cosine_similarity(target_embedding, other_all_embeddings)[0]
+
+        # Find the index of the most similar sentence (excluding the target sentence itself)
+        most_similar_index = np.argmax(similarities)
+
+        # Retrieve the most similar sentence and its sentiment
+        most_similar_sentence = other_all_sentences[most_similar_index]['sentence']
+        most_similar_sentiment = other_all_sentences[most_similar_index]['sentiment']
+        similarity_score = similarities[most_similar_index]
+
+        print(f"Sentence: {all_sentences[idx]['sentence']}")
+        print(f"most similar to sentence: {most_similar_sentence}")
+        print(f"Sentiment of similar sentence: {most_similar_sentiment}")
+        print(f"Similarity Score: {similarity_score}\n")

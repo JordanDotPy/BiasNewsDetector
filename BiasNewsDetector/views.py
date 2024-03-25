@@ -43,8 +43,6 @@ def process_article(request):
         print(neu_sentence)
         print("=====ENTITY SENTENCES=====")
         print(ent_sentence)
-        print("=====QUOTED SENTENCES=====")
-        print(quoted_sentences)
         # Render another template and pass the URL as context
         context = {'website_url': website_url,
                    'news_words': newspaper_words,
