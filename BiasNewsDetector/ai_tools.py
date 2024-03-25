@@ -42,33 +42,28 @@ def load_lexicon(filename):
     return lexicon
 
 
-def compare_word_to_lexicons(word, positive_model, negative_model, sc):
-    positive_similarity = 0
-    negative_similarity = 0
-    positive_count = 0
-    negative_count = 0
+def compare_modifier_to_lexicons(modifier_token, head_token, positive_model, negative_model, sentiment_score):
+    positive_similarity = negative_similarity = 0
 
-    if word in positive_model.wv.key_to_index:
-        for vocab_word in positive_model.wv.index_to_key:
-            positive_similarity += positive_model.wv.similarity(word, vocab_word)
-            positive_count += 1
-    if word in negative_model.wv.key_to_index:
-        for vocab_word in negative_model.wv.index_to_key:
-            negative_similarity += negative_model.wv.similarity(word, vocab_word)
-            negative_count += 1
+    # Aggregate similarity scores for modifier and head token from lexicons
+    for word in [modifier_token.text, head_token.text]:
+        if word in positive_model.wv.key_to_index:
+            positive_similarity += positive_model.wv.similarity(word, positive_model.wv.index_to_key[0])
+        if word in negative_model.wv.key_to_index:
+            negative_similarity += negative_model.wv.similarity(word, negative_model.wv.index_to_key[0])
 
-    # Avoid division by zero
-    positive_avg = positive_similarity / positive_count if positive_count else 0
-    negative_avg = negative_similarity / negative_count if negative_count else 0
-
-    if positive_avg > negative_avg:
-        sc += 0.12
-        return "Positive", positive_avg, sc
-    elif negative_avg > positive_avg:
-        sc -= 0.12
-        return "Negative", negative_avg, sc
+    # Determine sentiment based on average similarity scores
+    if positive_similarity > negative_similarity:
+        sentiment_score += 0.12
+        sentiment = "Positive"
+    elif negative_similarity > positive_similarity:
+        sentiment_score -= 0.12
+        sentiment = "Negative"
     else:
-        return "Neutral", 0, sc
+        sentiment = "Neutral"
+
+    avg_similarity = (positive_similarity + negative_similarity) / 2 if (positive_similarity + negative_similarity) > 0 else 0
+    return sentiment, avg_similarity, sentiment_score
 
 
 def full_article_sentiment_analysis(text, title):
@@ -114,26 +109,14 @@ def full_article_sentiment_analysis(text, title):
             if token.dep_ == "neg":
                 print(f"--- Negation found: {token.text} | modifying: {token.head.text}")
                 print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
-                sentiment, avg_similarity, sentiment_score = compare_word_to_lexicons(token.text, positive_model, negative_model, sentiment_score)
+                sentiment, avg_similarity, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
                 print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
 
             # Check for intensifiers
             elif token.dep_ in ['amod', 'advmod'] and token.head.pos_ in ['NOUN', 'VERB', 'ADJ']:
                 print(f"--- Intensifier found: {token.text} | modifying: {token.head.text}")
                 print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
-                sentiment, avg_similarity, sentiment_score = compare_word_to_lexicons(token.text, positive_model, negative_model, sentiment_score)
-                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
-
-            elif token.dep_ == "nsubj":
-                # Analyze if the subject is associated with biased or charged descriptions
-                print(f"Subject found in Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
-                sentiment, avg_similarity, sentiment_score = compare_word_to_lexicons(token.text, positive_model, negative_model, sentiment_score)
-                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
-
-            elif token.dep_ == "dobj":
-                # Analyze if the object is associated with biased or charged descriptions
-                print(f"Object found in Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
-                sentiment, avg_similarity, sentiment_score = compare_word_to_lexicons(token.text, positive_model, negative_model, sentiment_score)
+                sentiment, avg_similarity, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
                 print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
 
         # Ignore sentences below thresholds
@@ -235,3 +218,6 @@ def sentence_embedding(all_sentences):
         print(f"most similar to sentence: {most_similar_sentence}")
         print(f"Sentiment of similar sentence: {most_similar_sentiment}")
         print(f"Similarity Score: {similarity_score}\n")
+
+        if similarity_score >= 0.75:
+            all_sentences[idx]['sentiment'] = most_similar_sentiment

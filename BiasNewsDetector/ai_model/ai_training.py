@@ -17,15 +17,6 @@ def preprocess_and_tokenize(input_file, output_file=None):
                     f_out.write(" ".join(tokens) + '\n')
     return cleaned_sentences
 
-
-# Use the generator to feed sentences to Word2Vec
-'''conservative_sentences = 'BiasNewsDetector/ai_model/text_data/conservative.txt'
-
-sentences = preprocess_and_tokenize(conservative_sentences)
-model = Word2Vec(sentences=sentences, vector_size=100, window=5, min_count=1, workers=4)
-model.save("conservative.model")
-print("Conservative Model Done!")'''
-
 # Assuming you have your corpus in a directory where each file is a document
 # general_bias_lexicon = 'BiasNewsDetector/ai_model/text_data/bias-lexicon.txt'
 positive_lexicon = 'BiasNewsDetector/ai_model/text_data/lexicons/positive_lexicon.txt'
@@ -42,11 +33,3 @@ model = Word2Vec(sentences=sentences, vector_size=100, window=5, min_count=1, wo
 model.save("negative_lexicon.model")
 print("General Lexicon Model Done!")
 
-'''# Assuming you have your corpus in a directory where each file is a document
-liberal_sentences = 'BiasNewsDetector/ai_model/text_data/liberal.txt'
-
-# Training a Word2Vec model
-sentences = preprocess_and_tokenize(liberal_sentences)
-model = Word2Vec(sentences=sentences, vector_size=100, window=5, min_count=1, workers=4)
-model.save("liberal.model")
-print("Liberal Model Done!")'''

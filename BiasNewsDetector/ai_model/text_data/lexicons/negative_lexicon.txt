@@ -144,7 +144,7 @@ antagonism
 antagonist
 antagonistic
 antagonize
-anti-
+antisemitic
 anti-american
 anti-israeli
 anti-occupation
@@ -1062,10 +1062,12 @@ diatribe
 diatribes
 dick
 dictator
+dictatorship
 dictatorial
 die
 die-hard
 died
+dead
 dies
 difficult
 difficulties
@@ -1794,7 +1796,6 @@ frustration
 frustrations
 fuck
 fucking
-fudge
 fugitive
 full-blown
 fulminate
