@@ -3,8 +3,10 @@ from django.template import loader
 from django.http import HttpResponseRedirect
 from .models import *
 from django.http import JsonResponse
+from django.contrib import messages
 from BiasNewsDetector.webscrape_tools import newspaper_scrape, newspaper_scrape2
 from BiasNewsDetector.ai_tools import full_article_sentiment_analysis
+from BiasNewsDetector.error import error_handler
 
 
 # Create your views here.
@@ -32,6 +34,12 @@ def process_article(request):
     if request.method == "POST":
         website_url = request.POST.get('websiteURL')
         newspaper_title, newspaper_text, newspaper_words = newspaper_scrape(website_url)
+
+        if newspaper_words < 0:
+            error_text = error_handler(newspaper_words)
+            request.path = "/article/"
+            messages.error(request, error_text)
+            return HttpResponseRedirect(request.path)
 
         # Find all named entities within the article and provide sentiment analysis
         p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text, newspaper_title)
