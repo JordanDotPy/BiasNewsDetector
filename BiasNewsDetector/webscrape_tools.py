@@ -1,6 +1,5 @@
 from newspaper import Article
 from bs4 import BeautifulSoup
-from BiasNewsDetector.error import error_parser
 
 def newspaper_scrape(url):
     try:
@@ -13,7 +12,7 @@ def newspaper_scrape(url):
         words = text.split()
         return title, text, len(words), authors
     except Exception as e:
-        return 0, 0, error_parser(e)
+        return e, 0, -1
 
 
 def newspaper_scrape2(url):
@@ -38,4 +37,4 @@ def newspaper_scrape2(url):
 
         return title, text_by_paragraphs, len(words)
     except Exception as e:
-        return 0, 0, error_parser(e)
+        return e, 0, -1

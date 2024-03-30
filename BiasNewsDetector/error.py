@@ -1,12 +1,7 @@
-def error_handler(error_code):
-    if error_code == -2:
-        return "HTTP 403 Forbidden"
-    else:
-        return f"Unidentified Error. Please contact JTCX\nTraceback: {error_code}"
-        
-def error_parser(exception):
-    if exception == 1:
-        return -2
-    else:
-        print(exception)
-        return -1
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+
+def error_handler(request, error):
+    messages.error(request, error)
+    request.path = request.META.get('HTTP_REFERER')
+    return  HttpResponseRedirect(request.path)
