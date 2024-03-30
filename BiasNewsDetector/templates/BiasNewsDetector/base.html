@@ -27,7 +27,7 @@
     </header>
     {% csrf_token %}
     {% for message in messages %}
-        <div class="alert alert-success" style="padding-left: 25.3%; padding-right: 25.3%;">
+        <div class="alert alert-success" style="padding-left: 25.3%; padding-right: 25.3%; border: 2px solid;">
         <a class="close" href="#" data-dismiss="alert">x</a>
             {{ message }}
         </div>
