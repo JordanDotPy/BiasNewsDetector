@@ -139,7 +139,7 @@ footer {
     font-size: 16px; /* Text size */
     cursor: pointer; /* Cursor to pointer to indicate clickable item */
     border-radius: 5px; /* Rounded corners for a modern look */
-    transition: background-color 0.3s, transform 0.1s; / Smooth transition for background color and transform */
+    transition: background-color 0.3s, transform 0.1s; /* Smooth transition for background color and transform */
 }
 
 .submit-button:hover {
