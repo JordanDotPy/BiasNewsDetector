@@ -3,25 +3,20 @@
 
 {% block content %}
 <body>
-<script type="text/javascript">
-    function test() {
-        document.getElementById('test').style.display = '';
-    }
-</script>
 <div id = 'test' class="center" style="display: none; border: 2px solid; margin: auto; width: 50%; padding: 10px;">
-    <h3 style="text-align: center; vertical-align: middle;">Processing (This usually takes a few seconds)</h3>
+    <h3 style="text-align: center; vertical-align: middle;">Processing! (This usually takes a few seconds)</h3>
     <img src="{% static 'images/Eclipse-1s-100px.gif' %}" alt = 'loading' style="display: block; margin: auto; width: 100px"/>
 </div>
 <div class="content-section">
     <div class="container">
-        <form action="{% url 'process_url' %}" method="post">
+        <form action="{% url 'process_url' %}" method="post" onsubmit="javascript:document.getElementById('test').style.display = '';">
             {% csrf_token %}
             <h1 style="text-align: center">Submit a Website URL</h1>
             <label for="websiteURL"></label>
             <input type="url" id="websiteURL" name="websiteURL" required placeholder="https://www.example.com" class="url-submission-box">
             <br>
             <br>
-            <button type="submit" class="submit-button" onclick="javascript:test();">Submit</button>
+            <button type="submit" class="submit-button">Submit</button>
         </form>
     </div>
 </div>
