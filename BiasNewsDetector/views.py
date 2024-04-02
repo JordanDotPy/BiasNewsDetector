@@ -91,13 +91,14 @@ def process_article(request):
         context = {'website_url': website_url,
                    'news_words': newspaper_words,
                    'news_title': newspaper_title,
-                   'news_text':newspaper_text,
+                   'news_text': newspaper_text,
                    'bias_probabilities': None,
                    'analysis_results': all_sentences,
                    'positive_sentences': p_sentence,
                    'negative_sentence': neg_sentence,
                    'neutral_sentence': neu_sentence,
                    'all_sentences': all_sentences,
+                   'entity_sentences': ent_sentence
                    }
         return render(request, 'BiasNewsDetector/process_article.html', context)
 
