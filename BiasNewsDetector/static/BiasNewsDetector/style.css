@@ -72,6 +72,65 @@ input[type="url"] {
     text-align: center;
 }
 
+.sentence {
+    border: 2px solid #E00122;
+    width: 100%;
+    height: 35px;
+    font-size:16px;
+    text-align: left;
+}
+
+/* Style the dropdown select box */
+.select-style {
+    font-family: Arial, sans-serif; /* Change as needed */
+    font-size: 16px; /* Adjust size as needed */
+    padding: 8px 12px; /* Padding inside the select box */
+    background-color: #f8f8f8; /* Light grey background */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 4px; /* Rounded corners */
+    -webkit-appearance: none; /* Removes default chrome and safari style */
+    -moz-appearance: none; /* Removes default style Firefox */
+    appearance: none; /* Removes default style for IE */
+    /* Custom arrow */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292.362 292.362"><path fill="%23676767" d="M286.935 197.286l-14.273-14.273-127.178 127.178-127.178-127.178-14.273 14.273 141.451 141.451z"/><path fill="%23676767" d="M141.451 0l-141.45 141.451 14.273 14.273 127.178-127.178 127.178 127.178 14.273-14.273z"/></svg>');
+    background-position: right 10px top 50%; /* Position of the arrow */
+    background-repeat: no-repeat;
+    background-size: 12px; /* Size of the arrow */
+    width: 100%; /* Full width */
+    max-width: 300px; /* Maximum width, you can adjust */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    display: block; /* Display block to fill container */
+}
+
+/* Style focus state */
+.select-style:focus {
+    outline: none;
+    border-color: #E00122; /* Light blue border for focus */
+}
+
+/* Optionally, style the options */
+option {
+    padding: 10px; /* Padding for options */
+}
+
+.secondary-button {
+    background-color: #a9a9a9; /* Slightly lighter gray than the submit-button */
+    color: white; /* Keep text color white for consistency */
+    border: 2px solid white; /* Adding a border for distinction */
+    padding: 10px 22px; /* Slightly smaller padding for a subtle difference */
+    font-size: 16px; /* Keep text size consistent */
+    cursor: pointer; /* Keep cursor pointer */
+    border-radius: 5px; /* Keep rounded corners for consistency */
+    transition: background-color 0.3s, transform 0.1s, border-color 0.3s; /* Add border-color to the transition */
+}
+
+.secondary-button:hover, .secondary-button:focus {
+    background-color: #c0c0c0; /* Lighter gray on hover/focus for interactivity */
+    border-color: #f8f8f8; /* Change border color on hover/focus for more distinction */
+    transform: scale(1.05); /* Slightly larger scale on hover/focus */
+}
+
+
 .content-section {
     text-align: left;
     padding-left: 25%;
@@ -112,7 +171,7 @@ footer {
     background-color: #E00122;
     border: none; /* Remove borders */
     color: white; /* White text */
-    padding: 10px 20px; /* Some padding */
+    padding: 10px 22px; /* Some padding */
     text-align: center; /* Centered text */
     text-decoration: none; /* Remove underline */
     font-size: 16px; /* Set a font size */
@@ -190,4 +249,9 @@ footer {
 .info {
     flex: 2;
     padding: 20px;
+}
+
+.solid-line {
+    border-top: 5px solid #aaa; /* Solid gray line */
+    margin: 20px 0; /* Adds some space above and below the line */
 }

@@ -1,22 +1,79 @@
 {% extends "BiasNewsDetector/base.html" %}
 {% load static %}
 
-
 {% block content %}
 <body>
 <div class="content-section">
     <h1 style="text-align: center">FINISHED PROCESSING</h1>
     <h2 style="text-align: center">{{ news_title }}</h2>
-    <br>
-    <p>Newspaper3k wordcount: {{ news_words }}</p>
-    <br>
     {% for result in analysis_results %}
-        <span class="{{ result.sentiment }}">{{ result.sentence }}&nbsp;</span>
+        <span class="{{ result.sentiment }}">{{ result.sentence }}&nbsp</span>
     {% endfor %}
     <br>
 
-    <p>newspaper3k text: {{ news_text }}</p>
-    <a href="{% url 'article' %}" class="button">Upload Another Article</a>
+    <form action="{% url 'feedback_submission' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="website_url" value="{{ website_url }}">
+        <input type="hidden" name="news_text" value="{{ news_text }}">
+        <input type="hidden" name="all_sentences" value="{{ all_sentences }}">
+
+        <div id="form-container">
+            <!-- This section will be empty initially and will be filled with cloned forms -->
+        </div>
+
+        <!-- Hidden template for cloning -->
+        <div id="form-template" style="display: none;">
+            <div class="form-section">
+                <div class="solid-line"></div>
+                <label for="sent">Sentence:</label><br>
+                <input type="text" class="sentence" name="sentence[]" id='sent' placeholder="Copy and paste a sentence here..."><br>
+                <label for="output">Outputted Analysis:</label><br>
+                <select class="output_analysis select-style" name="output_analysis[]" id="output">
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Neutral">Neutral</option>
+                </select><br>
+                <label for="correct">Correct Analysis:</label><br>
+                <select class="correct_analysis select-style" name="correct_analysis[]" id="correct">
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Neutral">Neutral</option>
+                </select><br>
+                <button type="button" class="delete-form secondary-button">Delete Feedback Prompt</button><br>
+            </div>
+        </div>
+        <div class="solid-line"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
+        <button type="button" id="add-form" class=" add-form secondary-button" data-inline="True">Add Feedback Prompt</button>
+        <input type="submit" value="Submit Feedback" class="button" data-inline="True" style="text-align: right">
+            </div>
+    </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-form').addEventListener('click', function() {
+        var container = document.getElementById('form-container');
+        var template = document.getElementById('form-template').getElementsByClassName('form-section')[0];
+        var clone = template.cloneNode(true); // Clone from the template
+
+        // Clear input values in the clone
+        clone.querySelector('.sentence').value = '';
+        clone.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+        // Make the clone visible and append it to the container
+        clone.style.display = "block";
+        container.appendChild(clone);
+
+        // Attach event listener to the delete button in the cloned section
+        clone.querySelector('.delete-form').addEventListener('click', function() {
+            this.parentNode.remove(); // Remove the parent .form-section
+        });
+    });
+
+    // Optionally, initially add one form on page load
+    document.getElementById('add-form').click();
+});
+</script>
 </body>
 {% endblock %}

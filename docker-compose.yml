@@ -1,26 +1,14 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:13
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_DB=yourdbname
-      - POSTGRES_USER=youruser
-      - POSTGRES_PASSWORD=yourpassword
-
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .:/code  # Mount the project directory
+      # Removed line mounting db.sqlite3 directly
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     environment:
-      - DATABASE_URL=postgres://youruser:yourpassword@db:5432/yourdbname
+      - DEBUG=1  # Example environment variable, adjust as needed
 
-volumes:
-  postgres_data:
