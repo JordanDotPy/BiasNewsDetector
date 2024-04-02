@@ -9,6 +9,9 @@ from spacytextblob.spacytextblob import SpacyTextBlob
 from keyword_spacy import KeywordExtractor
 from gensim.models import Word2Vec
 
+def fix_quotes(text):
+    transl_table = dict([(ord(x), ord(y)) for x,y in zip( u"‘’´“”",  u"'''\"\"")]) 
+    return text.translate(transl_table)
 
 def lexicon_reader(file):
     with open(file, 'r') as f:
@@ -20,13 +23,13 @@ def cosine_similarity(vec1, vec2):
     return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
 
-def find_quoted_text_in_sentence(sentence):
+def find_quoted_text(text):
     # Regex pattern for finding text within double or single quotes
-    pattern = r'(?:"([^"]*)"[\s,]*(said|stated|comments|commented|reports|reported|—|she said|he said))|(he said|she said|said|stated|comments|commented|reports|reported|—)[\s,]*"([^"]*)"'
+    pattern = r'"(.*?)"'
     # Find all matches of the pattern in the sentence
-    matches = re.findall(pattern, sentence.text, re.IGNORECASE)
+    matches = re.findall(pattern, text, re.IGNORECASE)
     if matches:
-        return sentence
+        return matches
     else:
         return None
 
@@ -74,6 +77,7 @@ def compare_word_to_lexicons(word, positive_model, negative_model, sc):
 def full_article_sentiment_analysis(text, title):
     # Load spaCy model and add SpacyTextBlob pipe if it's not already added
     text = text.replace("\n", "")
+    text = fix_quotes(text)
     nlp = spacy.load("en_core_web_md")
     if not nlp.has_pipe("spacytextblob"):
         nlp.add_pipe('spacytextblob')
@@ -91,7 +95,7 @@ def full_article_sentiment_analysis(text, title):
     neutral_sentences = []
     entities_sentences = []
     all_sentences = []
-    quoted_sentences = []
+    quoted_sentences = find_quoted_text(text)
     analyzed_sentences = set()
 
     for d in doc:
@@ -100,7 +104,6 @@ def full_article_sentiment_analysis(text, title):
             continue  # Skip this sentence if it has already been analyzed
 
         analyzed_sentences.add(sentence)  # Add sentence text to the set
-        quoted_sentences.append(find_quoted_text_in_sentence(sentence))
         sentiment_score = sentence._.blob.polarity
         sentiment_subjectivity = sentence._.blob.subjectivity
 
