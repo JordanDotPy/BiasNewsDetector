@@ -8,9 +8,10 @@ def newspaper_scrape(url):
         article.download()
         article.parse()
         title = article.title
+        authors = article.authors
         text = article.text
         words = text.split()
-        return title, text, len(words)
+        return title, text, len(words), authors
     except Exception as e:
         return f"An error occurred: {e}", 0
 

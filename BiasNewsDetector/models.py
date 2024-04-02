@@ -1,7 +1,8 @@
 from django.db import models
 
 
-class NewsArticle(models.Model):
-  url = models.URLField(max_length=200)
-  title = models.CharField(max_length=200)
-  content = models.CharField(max_length=10000)
+class UserFeedback(models.Model):
+    website_url = models.URLField(max_length=200)
+    sentence = models.CharField(max_length=200)
+    output_sentiment = models.CharField(max_length=50)
+    correct_sentiment = models.CharField(max_length=50)

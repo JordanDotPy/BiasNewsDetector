@@ -1,0 +1,30 @@
+{% extends "BiasNewsDetector/base.html" %}
+{% load static %}
+
+{% block content %}
+<body>
+<div class="content-section">
+    <h1 style="text-align: center">THANK YOU FOR YOUR FEEDBACK</h1>
+
+    {% if feedback_entries %}
+        {% for entry in feedback_entries %}
+            {% if entry.feedback_sentence != "" %}
+            <div class="feedback-entry">
+                <h2>Feedback Entry</h2>
+                <p><strong>Sentence:</strong> {{ entry.feedback_sentence }}</p>
+                <p><strong>Outputted Analysis:</strong> {{ entry.output_analysis }}</p>
+                <p><strong>Correct Analysis:</strong> {{ entry.correct_analysis }}</p>
+                {% if entry.feedback_analysis %}
+                    <p><strong>Feedback Analysis:</strong> {{ entry.feedback_analysis }}</p>
+                {% endif %}
+            {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No feedback entries were submitted.</p>
+    {% endif %}
+    <br>
+    <div class="content-section"><a href="{% url 'article' %}" class="button">Upload Another Article</a></div>
+</div>
+</body>
+{% endblock %}
