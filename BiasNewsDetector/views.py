@@ -37,7 +37,7 @@ def feedback(request):
         correct_analyses = request.POST.getlist('correct_analysis[]')
         website_url = request.POST.get('website_url', '')
         news_text = request.POST.get('news_text', '')
-        all_sentences = request.POST.get('all_sentences', '')
+        all_sentences = request.session.get('all_sentences', [])
 
         # Initialize an empty list to hold all feedback entries
         feedback_entries = []
@@ -49,16 +49,15 @@ def feedback(request):
             correct_analysis = correct_analyses[i] if len(correct_analyses) > i else None
 
             # Here you can process each piece of feedback, e.g., check user input, save to database
-            # feedback_analysis = check_user_input(sentence, news_text, all_sentences,
-                                                 # output_analysis, correct_analysis, website_url)  # Example function call
-
-            # Append a dictionary for each feedback entry to the feedback_entries list
-            feedback_entries.append({
-                'feedback_sentence': sentence,
-                'output_analysis': output_analysis,
-                'correct_analysis': correct_analysis,
-                # 'feedback_analysis': feedback_analysis,  # Assuming this returns some result
-            })
+            valid_feedback = check_user_input(sentence, all_sentences,output_analysis, correct_analysis, website_url)
+            if valid_feedback:
+                # Append a dictionary for each feedback entry to the feedback_entries list
+                feedback_entries.append({
+                    'feedback_sentence': sentence,
+                    'output_analysis': output_analysis,
+                    'correct_analysis': correct_analysis,
+                    # 'feedback_analysis': feedback_analysis,  # Assuming this returns some result
+                })
 
         # Pass the list of feedback entries to your context
         context = {
@@ -79,6 +78,7 @@ def process_article(request):
 
         # Find all named entities within the article and provide sentiment analysis
         p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text, newspaper_title)
+        request.session['all_sentences'] = all_sentences
         print("=====POSITIVE SENTENCES=====")
         print(p_sentence)
         print("=====NEGATIVE SENTENCES=====")
