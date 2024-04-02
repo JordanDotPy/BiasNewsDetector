@@ -73,8 +73,8 @@ def full_article_sentiment_analysis(text, title):
     if not nlp.has_pipe("spacytextblob"):
         nlp.add_pipe('spacytextblob')
 
-    positive_model = Word2Vec.load("BiasNewsDetector/ai_model/positive_lexicon.model")
-    negative_model = Word2Vec.load("BiasNewsDetector/ai_model/negative_lexicon.model")
+    positive_model = Word2Vec.load("BiasNewsDetector/ai_model/polarity/positive_lexicon.model")
+    negative_model = Word2Vec.load("BiasNewsDetector/ai_model/polarity/negative_lexicon.model")
 
     doc = nlp(text)
     # Initialize lists to store sentences based on sentiment

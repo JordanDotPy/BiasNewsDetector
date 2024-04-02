@@ -20,7 +20,11 @@
         <span class="{{ result.sentiment }}">{{ result.sentence }}&nbsp</span>
     {% endfor %}
     <br>
-
+    <h1>SUBMIT FEEDBACK HERE</h1>
+    <p><strong>
+        If you feel as though we had made a mistake by incorrectly labeling a sentence(s) bias.
+        Please fill out the appropriate amount of forms below to help retrain our AI models to be more accurate in the future.
+    </strong></p>
     <form action="{% url 'feedback_submission' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="website_url" value="{{ website_url }}">
@@ -37,13 +41,13 @@
                 <div class="solid-line"></div>
                 <label for="sent">Sentence:</label><br>
                 <input type="text" class="sentence" name="sentence[]" id='sent' placeholder="Copy and paste a sentence here..."><br>
-                <label for="output">Outputted Analysis:</label><br>
+                <label for="output">Bias Analysis Output:</label><br>
                 <select class="output_analysis select-style" name="output_analysis[]" id="output">
                     <option value="Positive">Positive</option>
                     <option value="Negative">Negative</option>
                     <option value="Neutral">Neutral</option>
                 </select><br>
-                <label for="correct">Correct Analysis:</label><br>
+                <label for="correct">Correct Bias Analysis:</label><br>
                 <select class="correct_analysis select-style" name="correct_analysis[]" id="correct">
                     <option value="Positive">Positive</option>
                     <option value="Negative">Negative</option>

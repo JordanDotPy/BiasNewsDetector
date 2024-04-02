@@ -4,9 +4,8 @@
 {% block content %}
 <body>
 <div class="content-section">
-    <h1 style="text-align: center">THANK YOU FOR YOUR FEEDBACK</h1>
-
     {% if feedback_entries %}
+        <h1 style="text-align: center">THANK YOU FOR YOUR FEEDBACK</h1>
         {% for entry in feedback_entries %}
             {% if entry.feedback_sentence != "" %}
             <div class="feedback-entry">
@@ -21,10 +20,16 @@
             </div>
         {% endfor %}
     {% else %}
-        <p>No feedback entries were submitted.</p>
+        <h1 style="text-align: center">SORRY, FEEDBACK WAS DEEMED INVALID</h1>
+        <div style="text-align: center">
+            <p><strong>
+                Please make sure to submit a full sentence from the article output.
+                Also ensure that the Correct Bias Analysis that is not the same as the Bias Analysis Output,
+                as well as initially labeling the Bias Analysis Output correctly.
+            </strong></p>
+            <a href="{% url 'article' %}" class="button">Upload Another Article</a>
+        </div>
     {% endif %}
-    <br>
-    <div class="content-section"><a href="{% url 'article' %}" class="button">Upload Another Article</a></div>
 </div>
 </body>
 {% endblock %}
