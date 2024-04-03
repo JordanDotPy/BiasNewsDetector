@@ -80,12 +80,8 @@ def process_article(request):
         if newspaper_words < 0:
             return error_handler(request, newspaper_title)
 
-        try:
         # Find all named entities within the article and provide sentiment analysis
-            p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text, newspaper_title)
-            request.session['all_sentences'] = all_sentences
-        except Exception as e:
-            return error_handler(request, e)
+        p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text, newspaper_title)
         print("=====POSITIVE SENTENCES=====")
         print(p_sentence)
         print("=====NEGATIVE SENTENCES=====")
