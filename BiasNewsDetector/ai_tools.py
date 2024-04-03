@@ -13,18 +13,16 @@ from transformers import BertTokenizer,BertModel
 from sentence_transformers import SentenceTransformer, util
 from sklearn.metrics.pairwise import cosine_similarity
 
+
 def fix_quotes(text):
     transl_table = dict([(ord(x), ord(y)) for x,y in zip( u"‘’´“”",  u"'''\"\"")]) 
     return text.translate(transl_table)
+
 
 def lexicon_reader(file):
     with open(file, 'r') as f:
         for line in f:
             yield line
-
-
-def cosine_similarity(vec1, vec2):
-    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
 
 def find_quoted_text(text):
