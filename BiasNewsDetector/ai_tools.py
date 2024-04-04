@@ -182,6 +182,7 @@ def full_article_sentiment_analysis(text, title):
             "sentence": sentence.text,
             "sentiment": sentiment,
             "has_entity": has_named_entity,
+            "entity": entity_classifier,
             'score': sentiment_score
         })
 

@@ -8,16 +8,13 @@
     <h2 style="text-align: center">{{ news_title }}</h2>
     <br>
     <p>Newspaper3k wordcount: {{ news_words }}</p>
-    <p>Biased Sentences: </p>
-    {% for s in entity_sentences %}
-        {% if s.sentiment != "Neutral" %}
-            <p class="{{ s.sentiment }}">{{ s.sentence }}</p>
-            <p>{{ s.sentiment }} sentiment detected towards entities: {% for ent in s.entity %}"{{ ent }}" {% endfor %}</p>
-        {% endif %}
-    {% endfor %}
     <br>
     {% for result in analysis_results %}
-        <span class="{{ result.sentiment }}">{{ result.sentence }}&nbsp</span>
+        <span class="{{ result.sentiment }}"
+        {% if result.sentiment != "Neutral" %}
+            title="{{ result.sentiment }} sentiment detected{% if result.entity|length > 0 %} towards entities:{% for ent in result.entity %}&#013;'{{ ent }}'{% endfor %}{% endif %}"
+        {% endif %}
+        >{{ result.sentence }}&nbsp</span>
     {% endfor %}
     <br>
     <h1>SUBMIT FEEDBACK HERE</h1>
