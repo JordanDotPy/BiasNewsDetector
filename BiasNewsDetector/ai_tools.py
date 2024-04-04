@@ -25,6 +25,18 @@ def lexicon_reader(file):
             yield line
 
 
+def has_more_than_five_words_in_quotes(sentence):
+    # Use regular expression to find all words within quotes
+    words_in_quotes = re.findall(r'"([^"]+)"', sentence)
+    
+    # Count the number of words in quotes
+    total_words_in_quotes = sum(len(re.findall(r'\w+', word)) for word in words_in_quotes)
+    
+    # Return True if the total number of words in quotes is more than five, False otherwise
+    return total_words_in_quotes > 5
+
+
+
 def find_quoted_text(text):
     # Regex pattern for finding text within double or single quotes
     pattern = r'"(.*?)"'
@@ -125,7 +137,7 @@ def full_article_sentiment_analysis(text, title):
                 print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
 
         # Ignore sentences below thresholds
-        if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0):
+        if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0) or has_more_than_five_words_in_quotes(sentence.text):
             sentiment = 'Neutral'
             # Neutral Sentiment Sentence with Named Entity
             if has_named_entity and entity_classifier != []:
