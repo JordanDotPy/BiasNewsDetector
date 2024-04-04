@@ -137,7 +137,7 @@ def full_article_sentiment_analysis(text, title):
                 print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
 
         # Ignore sentences below thresholds
-        if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0) or has_more_than_five_words_in_quotes(sentence):
+        if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0) or has_more_than_five_words_in_quotes(sentence.text):
             sentiment = 'Neutral'
             # Neutral Sentiment Sentence with Named Entity
             if has_named_entity and entity_classifier != []:
