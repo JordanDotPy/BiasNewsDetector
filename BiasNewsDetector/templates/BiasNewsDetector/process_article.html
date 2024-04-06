@@ -5,10 +5,26 @@
 <body>
 <div class="content-section">
     <h1 style="text-align: center">FINISHED PROCESSING</h1>
-    <h2 style="text-align: center">{{ news_title }}</h2>
     <br>
-    <p>Newspaper3k wordcount: {{ news_words }}</p>
-    <br>
+
+    <h2 style="text-align: center; padding-bottom: 4%">{{ news_title }}</h2>
+    {% if all_sides_bias and all_sides_source %}
+        {% if all_sides_bias != "Center" %}
+            <h4><i style="text-align: left">
+                According to ALLSides, {{ all_sides_source }} has a multipartisan vote of news articles within this website tends to {{ all_sides_bias }}.
+                For more information, please visit the link below:
+            </i></h4>
+            <a href="{{ all_sides_url }}" style="padding-bottom: 25px">{{ all_sides_url }}</a>
+            <br>
+        {% else %}
+            <h4><i style="text-align: left">
+                According to ALLSides, {{ all_sides_source }} has a multipartisan vote of being {{ all_sides_bias }}, or unbias on most, if not all, news articles posted.
+                For more information, please visit the link below:
+            </i></h4>
+            <a href="{{ all_sides_url }}" style="padding-bottom: 25px">{{ all_sides_url }}</a>
+            <br>
+        {% endif %}
+    {% endif %}
     {% for result in analysis_results %}
         <span class="{{ result.sentiment }}"
         {% if result.sentiment != "Neutral" %}

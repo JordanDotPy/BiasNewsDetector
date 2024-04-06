@@ -4,6 +4,8 @@ import tensorflow as tf
 import spacy
 import numpy as np
 import re
+import json
+from urllib.parse import urlparse
 from spacy.matcher import Matcher
 from spacytextblob.spacytextblob import SpacyTextBlob
 from keyword_spacy import KeywordExtractor
@@ -12,6 +14,45 @@ import torch
 from transformers import BertTokenizer,BertModel
 from sentence_transformers import SentenceTransformer, util
 from sklearn.metrics.pairwise import cosine_similarity
+
+
+def find_media_bias_by_url(url):
+    # Load the JSON data
+    with open('BiasNewsDetector/ai_model/text_data/all_sides.json', 'r') as file:
+        data = json.load(file)
+
+    # Parse the article URL to extract the domain
+    parsed_article_url = urlparse(url)
+    article_domain = parsed_article_url.netloc
+
+    # Sometimes, 'www.' is included in URLs and sometimes it's not. Removing it can help in matching.
+    if article_domain.startswith('www.'):
+        article_domain = article_domain[4:]
+
+    # Iterate through the list of publications
+    for item in data['allsides_media_bias_ratings']:
+        publication = item['publication']
+        source_url = publication.get('source_url', '')
+
+        # Skip if source URL is empty
+        if not source_url:
+            continue
+
+        # Parse the source URL to extract the domain
+        parsed_source_url = urlparse(source_url)
+        source_domain = parsed_source_url.netloc
+
+        # Similarly, remove 'www.' if present
+        if source_domain.startswith('www.'):
+            source_domain = source_domain[4:]
+
+        # Check if the article's domain matches the source's domain
+        if article_domain == source_domain:
+            return publication.get('media_bias_rating', 'Bias rating not found'), \
+                   publication.get('source_name', 'Source name not found'), \
+                   publication.get('allsides_url', 'ALLSides url not found')
+
+    return None, None
 
 
 def fix_quotes(text):
