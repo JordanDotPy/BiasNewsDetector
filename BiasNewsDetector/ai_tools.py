@@ -52,7 +52,7 @@ def find_media_bias_by_url(url):
                    publication.get('source_name', 'Source name not found'), \
                    publication.get('allsides_url', 'ALLSides url not found')
 
-    return None, None
+    return None, None, None
 
 
 def fix_quotes(text):
@@ -75,7 +75,6 @@ def has_more_than_five_words_in_quotes(sentence):
     
     # Return True if the total number of words in quotes is more than five, False otherwise
     return total_words_in_quotes > 5
-
 
 
 def find_quoted_text(text):
@@ -101,30 +100,34 @@ def load_lexicon(filename):
 
 
 def compare_modifier_to_lexicons(modifier_token, head_token, positive_model, negative_model, sentiment_score):
-    positive_similarity = negative_similarity = 0
-
-    # Aggregate similarity scores for modifier and head token from lexicons
-    for word in [modifier_token.text, head_token.text]:
-        if word in positive_model.wv.key_to_index:
-            positive_similarity += positive_model.wv.similarity(word, positive_model.wv.index_to_key[0])
-        if word in negative_model.wv.key_to_index:
-            negative_similarity += negative_model.wv.similarity(word, negative_model.wv.index_to_key[0])
-
     # Determine sentiment based on average similarity scores
-    if positive_similarity > negative_similarity:
-        sentiment_score += 0.12
-        sentiment = "Positive"
-    elif negative_similarity > positive_similarity:
-        sentiment_score -= 0.12
-        sentiment = "Negative"
+    if modifier_token.dep_ == 'neg':
+        if head_token.text in positive_model.wv.key_to_index:
+            sentiment = "Negative"
+            sentiment_score -= 0.15
+        elif head_token.text in negative_model.wv.key_to_index:
+            sentiment = "Positive"
+            sentiment_score += 0.12
+        else:
+            sentiment = "Neutral"
     else:
-        sentiment = "Neutral"
+        if head_token.text in positive_model.wv.key_to_index:
+            sentiment = "Positive"
+            if modifier_token.text in positive_model.wv.key_to_index:
+                sentiment_score += 0.12
+            sentiment_score += 0.06
+        elif head_token.text in negative_model.wv.key_to_index:
+            sentiment = "Negative"
+            if modifier_token.text in negative_model.wv.key_to_index:
+                sentiment_score -= 0.15
+            sentiment_score -= 0.06
+        else:
+            sentiment = "Neutral"
 
-    avg_similarity = (positive_similarity + negative_similarity) / 2 if (positive_similarity + negative_similarity) > 0 else 0
-    return sentiment, avg_similarity, sentiment_score
+    return sentiment, sentiment_score
 
 
-def full_article_sentiment_analysis(text, title):
+def full_article_sentiment_analysis(text):
     # Load spaCy model and add SpacyTextBlob pipe if it's not already added
     text = text.replace("\n", "")
     text = fix_quotes(text)
@@ -167,15 +170,15 @@ def full_article_sentiment_analysis(text, title):
             if token.dep_ == "neg":
                 print(f"--- Negation found: {token.text} | modifying: {token.head.text}")
                 print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
-                sentiment, avg_similarity, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
-                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
+                sentiment, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
+                # sentiment, avg, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
 
             # Check for intensifiers
             elif token.dep_ in ['amod', 'advmod'] and token.head.pos_ in ['NOUN', 'VERB', 'ADJ']:
                 print(f"--- Intensifier found: {token.text} | modifying: {token.head.text}")
                 print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
-                sentiment, avg_similarity, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
-                print(f"***** Word: {token.text}, Sentiment: {sentiment}, Avg. Similarity: {avg_similarity}\n")
+                sentiment, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
+                # sentiment, avg, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
 
         # Ignore sentences below thresholds
         if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0) or has_more_than_five_words_in_quotes(sentence.text):
@@ -273,10 +276,10 @@ def sentence_embedding(all_sentences):
         most_similar_sentiment = other_all_sentences[most_similar_index]['sentiment']
         similarity_score = similarities[most_similar_index]
 
-        print(f"Sentence: {all_sentences[idx]['sentence']}")
-        print(f"most similar to sentence: {most_similar_sentence}")
-        print(f"Sentiment of similar sentence: {most_similar_sentiment}")
-        print(f"Similarity Score: {similarity_score}\n")
+        # print(f"Sentence: {all_sentences[idx]['sentence']}")
+        # print(f"most similar to sentence: {most_similar_sentence}")
+        # print(f"Sentiment of similar sentence: {most_similar_sentiment}")
+        # print(f"Similarity Score: {similarity_score}\n")
 
         if similarity_score >= 0.75:
             all_sentences[idx]['sentiment'] = most_similar_sentiment

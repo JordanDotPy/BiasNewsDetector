@@ -8,6 +8,10 @@
         <form action="{% url 'process_url' %}" method="post" onsubmit="javascript:document.getElementById('test').style.display = '';">
             {% csrf_token %}
             <h1 style="text-align: center">Submit a News Article URL</h1>
+            <h4 style="text-align: center"><i>
+                DISCLAIMER: News articles behind a paywall or that need an account to read the full article may not be able to be accessed and parsed.
+            </i></h4>
+            <br>
             <label for="websiteURL"></label>
             <input type="url" id="websiteURL" name="websiteURL" required placeholder="https://www.example.com" class="url-submission-box">
             <br>

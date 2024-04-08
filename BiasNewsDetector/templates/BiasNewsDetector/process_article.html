@@ -8,7 +8,7 @@
     <br>
 
     <h2 style="text-align: center; padding-bottom: 4%">{{ news_title }}</h2>
-    {% if all_sides_bias and all_sides_source %}
+    {% if all_sides_bias and all_sides_source and all_sides_url %}
         {% if all_sides_bias != "Center" %}
             <h4><i style="text-align: left">
                 According to ALLSides, {{ all_sides_source }} has a multipartisan vote of news articles within this website tends to {{ all_sides_bias }}.
@@ -25,6 +25,7 @@
             <br>
         {% endif %}
     {% endif %}
+    <br>
     {% for result in analysis_results %}
         <span class="{{ result.sentiment }}"
         {% if result.sentiment != "Neutral" %}
@@ -42,7 +43,7 @@
         {% csrf_token %}
         <input type="hidden" name="website_url" value="{{ website_url }}">
         <input type="hidden" name="news_text" value="{{ news_text }}">
-        <input type="hidden" name="all_sentences" value="{{ all_sentences }}">
+        <input type="hidden" name="all_sentences" value="{{ analysis_results }}">
 
         <div id="form-container">
             <!-- This section will be empty initially and will be filled with cloned forms -->
@@ -54,6 +55,7 @@
                 <div class="solid-line"></div>
                 <label for="sent">Sentence:</label><br>
                 <input type="text" class="sentence" name="sentence[]" id='sent' placeholder="Copy and paste a sentence here..."><br>
+                <br>
                 <label for="output">Bias Analysis Output:</label><br>
                 <select class="output_analysis select-style" name="output_analysis[]" id="output">
                     <option value="Positive">Positive</option>

@@ -1,16 +1,16 @@
 from newspaper import Article
 from bs4 import BeautifulSoup
 
+
 def newspaper_scrape(url):
     try:
         article = Article(url)
         article.download()
         article.parse()
         title = article.title
-        authors = article.authors
         text = article.text
         words = text.split()
-        return title, text, len(words), authors
+        return title, text, len(words)
     except Exception as e:
         return e, 0, -1
 
