@@ -3,8 +3,77 @@
 
 {% block content %}
 <body>
-<div class="content">
-<p>Hello from the about webpage</p>
+<div class="content-section">
+    <h1 style="text-align: center">HOW OUR BIAS DETECTOR WORKS</h1>
+    <h3>Overview:</h3>
+    <p>
+        Our text analysis system is designed to deeply understand and categorize the sentiment of a given news article.
+        At its core, it evaluates not just the surface-level sentiment of sentences but delves into the nuanced ways language conveys bias,
+        employing a combination of natural language processing (NLP) techniques and machine learning models.
+    </p>
+
+    <h4>1. Initial Text Preparation:</h4>
+    <p>
+        The process begins with cleaning the input text to ensure a uniform structure.
+        This includes removing line breaks and fixing quotation marks to prevent parsing errors.
+    </p>
+
+    <h4>2. Sentiment and Subjectivity Analysis:</h4>
+    <p>
+        Utilizing the 'spaCy' library enhanced with the 'SpacyTextBlob' extension,
+        we first break down the article into sentences and words (tokens).
+        For each sentence, we assess its overall sentiment (positive or negative) and subjectivity (objective or subjective) to classify it broadly.
+    </p>
+
+    <h4>3. Dependency Parsing:</h4>
+    <p>
+        The heart of our analysis lies in understanding the grammatical structure of sentences to detect how certain words modify others.
+        We specifically look for negations and intensifiers—words that either negate or amplify the sentiment of other words they modify.
+        This step is crucial for understanding the context and nuanced meaning beyond mere word presence.
+    </p>
+
+    <h4>4. Word Embeddings Comparison:</h4>
+    <p>
+        To assess the sentiment further,
+        we compare specific words found during dependency parsing against our pre-trained positive and negative lexicon models.
+        By calculating the semantic similarity of these words to our lexicons,
+        we refine our sentiment score for each sentence, thus capturing the subtle biases that may not be overtly evident.
+    </p>
+
+    <h4>5. Sentence Embedding and Similarity Analysis:</h4>
+    <p>
+        The culmination of our process involves generating embeddings for each sentence using a pre-trained sentence transformer model.
+        These embeddings represent the semantic essence of sentences in a high-dimensional vector space.
+        By comparing these embeddings, we identify sentences with semantic similarities,
+        adjusting sentiment classifications based on the similarity scores.
+        This allows us to understand the article's content on a deeper level,
+        identifying patterns and sentiments that may not be immediately apparent.
+    </p>
+
+    <h4>6. Outcome:</h4>
+    <p>
+        The final output is a comprehensive analysis of the article,
+        with sentences classified as positive, negative, or neutral,
+        along with an indication of named entities and reasons for bias where applicable.
+        This layered approach, combining syntactical analysis with semantic understanding through machine learning,
+        provides a nuanced view of the text's sentiment and bias.
+    </p>
+
+    <h4>7. User Feedback:</h4>
+    <p>
+        Since we know that our outputs will never be perfectly accurate in every user's perception since bias is subjective,
+        so we have offered users to submit feedback on sentence(s) that the bias detector missed or got wrong.
+        Whenever a user submits a valid feedback form,
+        the feedback is then saved within our database where we can create sentence embeddings to further train our models.
+    </p>
+
+    <h4>Conclusion:</h4>
+    <p>
+        This methodology enables us to move beyond basic sentiment analysis,
+        offering insights into how language constructs bias and sentiment.
+        By leveraging advanced NLP and machine learning techniques,
+        we achieve a detailed understanding of text, invaluable for evaluating news articles' objectivity and bias.
+    </p>
 </div>
 </body>
 {% endblock %}

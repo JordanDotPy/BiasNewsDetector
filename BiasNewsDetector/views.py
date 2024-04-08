@@ -3,7 +3,7 @@ from django.template import loader
 from django.http import HttpResponseRedirect
 from .models import *
 from django.http import JsonResponse
-from BiasNewsDetector.webscrape_tools import newspaper_scrape, newspaper_scrape2
+from BiasNewsDetector.webscrape_tools import newspaper_scrape
 from BiasNewsDetector.ai_tools import full_article_sentiment_analysis, find_media_bias_by_url
 from BiasNewsDetector.feedback_tools import check_user_input
 from BiasNewsDetector.error import error_handler
@@ -39,6 +39,7 @@ def feedback(request):
         website_url = request.POST.get('website_url', '')
         news_text = request.POST.get('news_text', '')
         all_sentences = request.session.get('all_sentences', [])
+        all_sides_source = request.session.get('allsides_source_name', '')
 
         # Initialize an empty list to hold all feedback entries
         feedback_entries = []
@@ -50,7 +51,7 @@ def feedback(request):
             correct_analysis = correct_analyses[i] if len(correct_analyses) > i else None
 
             # Here you can process each piece of feedback, e.g., check user input, save to database
-            valid_feedback = check_user_input(sentence, all_sentences,output_analysis, correct_analysis, website_url)
+            valid_feedback = check_user_input(sentence, all_sentences,output_analysis, correct_analysis, website_url, all_sides_source)
             if valid_feedback:
                 # Append a dictionary for each feedback entry to the feedback_entries list
                 feedback_entries.append({
@@ -75,15 +76,16 @@ def feedback(request):
 def process_article(request):
     if request.method == "POST":
         website_url = request.POST.get('websiteURL')
-        newspaper_title, newspaper_text, newspaper_words, authors = newspaper_scrape(website_url)
+        newspaper_title, newspaper_text, newspaper_words = newspaper_scrape(website_url)
         allsides_bias_rating, allsides_source_name, allsides_url = find_media_bias_by_url(website_url)
+        request.session['allsides_source_name'] = allsides_source_name
 
         if newspaper_words < 0:
             return error_handler(request, newspaper_title)
 
         try:
-        # Find all named entities within the article and provide sentiment analysis
-            p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text, newspaper_title)
+            # Find all named entities within the article and provide sentiment analysis
+            p_sentence, neg_sentence, neu_sentence, ent_sentence, quoted_sentences, all_sentences = full_article_sentiment_analysis(newspaper_text)
             request.session['all_sentences'] = all_sentences
         except Exception as e:
             return error_handler(request, e)
@@ -103,13 +105,7 @@ def process_article(request):
                    'all_sides_url': allsides_url,
                    'news_title': newspaper_title,
                    'news_text': newspaper_text,
-                   'bias_probabilities': None,
                    'analysis_results': all_sentences,
-                   'positive_sentences': p_sentence,
-                   'negative_sentence': neg_sentence,
-                   'neutral_sentence': neu_sentence,
-                   'all_sentences': all_sentences,
-                   'entity_sentences': ent_sentence
                    }
         return render(request, 'BiasNewsDetector/process_article.html', context)
 
