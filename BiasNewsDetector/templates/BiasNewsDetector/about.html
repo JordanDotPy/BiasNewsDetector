@@ -74,6 +74,46 @@
         By leveraging advanced NLP and machine learning techniques,
         we achieve a detailed understanding of text, invaluable for evaluating news articles' objectivity and bias.
     </p>
+
+    <h1 style="text-align: center">FUTURE IMPLEMENTATIONS FOR BIAS NEWS DETECTOR 2.0</h1>
+    <h4>1. Sentence Embeddings For Conservative and Liberal Sentences</h4>
+    <p>
+        Based off of User's Feedback and the AllSides news source bias rating, we have the ability to create sentence
+        embeddings that contain conservative or liberal intentions within each sentence.  With these sentences, we
+        can create sentence embeddings on these feedbacks.  Moreover, with sentence similarity we can infer whether a
+        sentence has the connotation of being conservative or liberal.
+    </p>
+
+    <h4>2. Using Fact Checking APIs</h4>
+    <p>
+        Considering that our current implementation can only output bias within news articles, using a fact checking API
+        can help give a more in-depth analysis within each article and give the reader a better understanding.
+    </p>
+
+    <h4>Separating Noise from Form Submission</h4>
+    <p>
+        One concern about the user input form submission is separating out useful information from noise.
+        This comes in two areas: how to handle well-intentioned but undesirable inputs,
+        and preventing malicious overloading of the server through continuous form submission.
+        As bias is inherently subjective, some people's input may be incorrect or unhelpful.
+        On the other hand, there are currently no checks to prevent mass dumping of forms from malicious users.
+    </p>
+
+    <h4>Bad Faith Form Submission</h4>
+    <p>
+        A larger concern about form submission comes from targeted bad faith submission with the intent to undermine the detector.
+        A bad actor could attempt to drift the detector over time with specific form submission,
+        like trying to change the sentiment towards certain sentences.
+        Solutions to the above issues may end up quite involved,
+        as detecting these issues might require direct human oversight.
+    </p>
+
+    <h4>Paywall/Member Requirements Preventing Scraping</h4>
+    <p>
+        One goal for the scraper is to set up a system allowing members of different news sites to scrape articles they can access,
+        but the public can't. Currently, some articles are prevented from being scraped due to paywall or member requirements.
+        Setting up some method of allowing users that access would be a great user experience upgrade.
+    </p>
 </div>
 </body>
 {% endblock %}
