@@ -84,11 +84,18 @@ Jordan Shaheen:
 2 hours on Docker initalization
 30 hours on SpaCy model/rule-based system development
 
+Cole Hutchins
+15 hours on researching and studying ideas and tools mentioned in academic papers
+15 hours on trying to implement BOW, TF-IDF, and brainstorming and transistion to other ideas when we realized that idea was not sustainable
+15 hours of general work on code review, presentation slide creation, project direction,    
+5 hours on sentiment analysis on entities and subjects
+
+
 ## Summary of Expenses
 There was $0 spent in the creation of this project.
 
 ## Appendix
 Include references, citations, links to code repositories, meeting notes, and any other pertinent information that supports the project documentation.
-
+https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1224/reports/custom_116661041.pdf
 
 
