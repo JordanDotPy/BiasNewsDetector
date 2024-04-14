@@ -19,6 +19,8 @@ Our Bias News Detector integrates SpaCy's LLM with custom rule-based algorithms 
 It evaluates sentence polarity and highlights biased statements, enabling users to discern media impartiality effectively. 
 This innovative approach enhances critical reading by pinpointing bias in journalistic writing
 
+Abstract: Modern readers of online political content are often just looking for the facts so that they can form their own opinions. Unfortunately, many news sources and articles are biased to one side or the other in their reporting, which can make up readers’ minds for them. For readers who don’t have the time to investigate every author, source, and claim, our tool will provide a simple bias score for any online news article. Readers will then be able to make informed decisions about which articles they choose to read and check other sources if they wish.
+
 ## User Interface Specification
 The user interface is created using HTML templates and CSS Styling.  The webpages consist of:
 - Homepage with project description and outline
