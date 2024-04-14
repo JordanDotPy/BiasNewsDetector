@@ -171,17 +171,15 @@ def full_article_sentiment_analysis(text):
                 print(f"--- Negation found: {token.text} | modifying: {token.head.text}")
                 print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
                 sentiment, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
-                # sentiment, avg, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
 
             # Check for intensifiers
             elif token.dep_ in ['amod', 'advmod'] and token.head.pos_ in ['NOUN', 'VERB', 'ADJ']:
                 print(f"--- Intensifier found: {token.text} | modifying: {token.head.text}")
                 print(f"Child Token: {token.text} -> {token.dep_} | Parent Token {token.head.text} -> {token.head.dep_}")
                 sentiment, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
-                # sentiment, avg, sentiment_score = compare_modifier_to_lexicons(token, token.head, positive_model, negative_model, sentiment_score)
 
         # Ignore sentences below thresholds
-        if sentiment_subjectivity < 0.12 or (-0.35 < sentiment_score <= 0) or (0.35 > sentiment_score >= 0) or has_more_than_five_words_in_quotes(sentence.text):
+        if sentiment_subjectivity < 0.10 or (-0.30 < sentiment_score <= 0) or (0.30 > sentiment_score >= 0) or has_more_than_five_words_in_quotes(sentence.text):
             sentiment = 'Neutral'
             # Neutral Sentiment Sentence with Named Entity
             if has_named_entity and entity_classifier != []:

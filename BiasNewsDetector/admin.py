@@ -22,15 +22,13 @@ class UserFeedbackAdmin(admin.ModelAdmin):
         if queryset.exists():
             first_object_url = queryset.first().website_url
             website_name = find_media_bias_by_url(first_object_url)[1]
-            website_name = website_name.replace(" ", "_")
 
         # Generate embeddings
         embeddings = model.encode(list(sentences))
-        if website_name:
-            unique_id = uuid.uuid4()
-            file_path = os.path.join('BiasNewsDetector/ai_model/feedback_embeddings',
-                                     f"{website_name}_{unique_id}.npy")
-            np.save(file_path, embeddings)
+        unique_id = uuid.uuid4()
+        file_path = os.path.join('BiasNewsDetector/ai_model/feedback_embeddings/',
+                                 f"{unique_id}.npy")
+        np.save(file_path, embeddings)
 
 
 # Register your models here.
