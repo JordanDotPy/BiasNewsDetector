@@ -1,4 +1,4 @@
-# Final Design Report - [Your Project Name]
+# Final Design Report - Bias News Detector 1.0
 
 ## Table of Contents
 1. [Project Description](#project-description)
@@ -35,12 +35,25 @@ The user interface is created using HTML templates and CSS Styling.  The webpage
 Describe the execution of tests and discuss the results. Include methodologies, test scenarios, and the outcomes.
 
 ## User Manual
-Include links to the online user manual and screenshots demonstrating the use of your application. Add a Frequently Asked Questions (FAQ) section to assist users.
+1. User submits a news article URL to the submission box.
+2. the Bias News Detector outputs the sentiment of each sentence within the submitted article.
+3. At the bottom of the output page, the user can submit feedback where they believe that the bias detector went wrong by pasting the sentence, its outputted bias, and the correct bias.
+4. User will then be prompted if the feedback was deemed valid or invalid
+5. User can interact with the navigation bar within the header of each webpage to traverse to new article submission, homepage, About JTCX Page, or Meet the Developers Page
+   
 
-Frequently Asked Questions (FAQ)
+### Frequently Asked Questions (FAQ)
+How can the user tell how bias the output was?
+
+Can you submit any type of url to the webpage?
+
+How can you account for all the different types of bias?
+
+What are the next steps for this project?
+
 
 ## Spring Final PPT Presentation
-https://docs.google.com/presentation/d/1co4_NATWwx58o8fNLTBt8JRdHQASSN4Hl-MjrWZ7DQw/edit#slide=id.g28fbe254194_0_80    might need updating?
+[Spring Final Presentation Slides](https://docs.google.com/presentation/d/1co4_NATWwx58o8fNLTBt8JRdHQASSN4Hl-MjrWZ7DQw/edit#slide=id.g28fbe254194_0_80)
 
 ## Final Expo Poster
 Expo poster can be found within the OneDrive link below:
@@ -64,9 +77,16 @@ We successfully implemented a pre-trained large language model, SpaCy, and enhan
 ## Summary of Hours and Justification
 Provide a detailed summary of hours worked by each team member, justifying the effort corresponding to at least 45 hours per member.
 
+Jordan Shaheen:
+13 hours on frontend devleopment
+2 hours on Docker initalization
+30 hours on SpaCy model/rule-based system development
+
 ## Summary of Expenses
 There was $0 spent in the creation of this project.
 
 ## Appendix
 Include references, citations, links to code repositories, meeting notes, and any other pertinent information that supports the project documentation.
+
+
 
