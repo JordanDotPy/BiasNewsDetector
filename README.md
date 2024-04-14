@@ -84,6 +84,7 @@ Jordan Shaheen:
 2 hours on Docker initalization
 30 hours on SpaCy model/rule-based system development
 (refrence of work can be found within the link of my contributions that the GitHub repository tracked from commits).
+[Jordan Shaheen's Contribution](https://1drv.ms/i/s!AtwtZBOB204QgQzux6nj-V1dPXhw?e=4te9eZ)
 
 Cole Hutchins
 15 hours on researching and studying ideas and tools mentioned in academic papers
