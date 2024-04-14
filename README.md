@@ -97,5 +97,10 @@ There was $0 spent in the creation of this project.
 ## Appendix
 Include references, citations, links to code repositories, meeting notes, and any other pertinent information that supports the project documentation.
 https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1224/reports/custom_116661041.pdf
+https://realpython.com/sentiment-analysis-python/
+https://pypi.org/project/spacytextblob/
+https://www.djangoproject.com/
+https://spacy.io/
+https://github.com/HLTCHKUST/framing-bias-metric/tree/main/data/lexicons
 
 
