@@ -40,7 +40,7 @@ Include links to the online user manual and screenshots demonstrating the use of
 Frequently Asked Questions (FAQ)
 
 ## Spring Final PPT Presentation
-Link to the final presentation slides.
+https://docs.google.com/presentation/d/1co4_NATWwx58o8fNLTBt8JRdHQASSN4Hl-MjrWZ7DQw/edit#slide=id.g28fbe254194_0_80    might need updating?
 
 ## Final Expo Poster
 Expo poster can be found within the OneDrive link below:
