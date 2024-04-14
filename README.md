@@ -71,6 +71,10 @@ The capstone project aims to demonstrate the comprehensive computer science skil
 ### Final Self-Assessments
 Summary of final self-assessments conducted during the spring semester. Exclude confidential team assessments.
 
+#### Cole Hutchins
+
+For our capstone project, I worked to decide on a problem to address, how to solve it, and how to implement our solution. I read academic papers relating to bias detection models, sentiment analysis tools, discussions of bias in media, and others' thoughts on capturing biased language. I wrote a bag of words and TF-IDF model using a collection of hundreds of thousands of data points that we found. Once it became apparent that this was no longer suitable due to time and resource constraints, I worked on helping our team switch to finding a more suitable route to solving our problem. I wrote code to detect sentiment surrounding named entities, oversaw the progress of our model development, and helped make sure our ideas could work by researching into others' solutions.
+
 #### Jordan Shaheen:
 In my capstone project, I oversaw team progress and developed the front and back end of our website, integrating an SQL database and Docker. Drawing on my previous experience with Django and Docker, I built the website infrastructure efficiently. Our project involved creating a rule-based natural language processing (NLP) model, necessitating extensive research and team collaboration to ensure accuracy and efficiency.
 
