@@ -82,7 +82,7 @@ Provide a detailed summary of hours worked by each team member, justifying the e
 Jordan Shaheen:
 13 hours on frontend devleopment
 2 hours on Docker initalization
-30 hours on SpaCy model/rule-based system development
++30 hours on SpaCy model/rule-based system development
 (refrence of work can be found within the link of my contributions that the GitHub repository tracked from commits).
 [Jordan Shaheen's Contribution](https://1drv.ms/i/s!AtwtZBOB204QgQzux6nj-V1dPXhw?e=4te9eZ)
 
