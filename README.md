@@ -32,9 +32,9 @@ The user interface is created using HTML templates and CSS Styling.  The webpage
   [OUTPUT PAGE (USER FEEDBACK)](https://1drv.ms/i/s!AtwtZBOB204QgQrsNi27n-QLIKde?e=FWjtvQ)
 - Feddback submission page where the user is prompted wether the feedback was valid for our database or not.
   [FEEDBACK SUBMISSION](https://1drv.ms/i/s!AtwtZBOB204QgQtXei2oIxZi0sgi?e=PIMraX)
-
 ## Test Plan and Results
-Describe the execution of tests and discuss the results. Include methodologies, test scenarios, and the outcomes.
+Our initial plan was to use a repository of hundreds of thousands of sentences to serve as training data for biased language. We were going to use a bag of words model, TF-IDF model, and at least another model to give us a process that could confidently predict bias for text. On top of this we were going to have an entity sentiment analysis model, and subject analysis model. As we were crafting a test plan for this idea, we started to realize that training a model for this data and then testing the model would be too time consuming for the resources we had. We shifted to a new strategy to accomplish our goal. The plan was now to combine a spacy sentiment analysis model, a model that ran sentiment analysis on named entities, a lexicon to detect biased words in context, a list of authors with biases and a list of authors with biases.  In order to test our model/system, we needed to define "bias". Since defining what is biased is inherently biased, we decided to use only reasoning that could be backed up with numbers and data for our system. Our sentiment analysis model we chose was not trained on any specific context, and outputted a value for the sentiment it detected on the input. Our named entity model also gave a value for the sentiment detected. Our article and author bias list came from AllSides, which is a company that panels experts and  regular consumers of media across both sides of the politcal spectrum to understand author and media company bias. We now had quantifiable data for sentences, entities, authors, and publishers.
+
 
 ## User Manual
 1. User submits a news article URL to the submission box.
