@@ -65,6 +65,10 @@ Expo poster can be found within the OneDrive link below:
 ### Initial Self-Assessments
 Summary of initial self-assessments conducted during the fall semester.
 
+#### Cole Hutchins
+
+This project will allow me to gain new skills and grow many of the ones I already have. I anticipate this project involving a lot of collaboration, which will allow me to grow my team working and interpersonal skills. From a strictly technical viewpoint, this project is going to require me to become familiar with a lot of new tools and subject matters. Our team is going to need to find a way to fairly define bias and then devise a method to consistently and accurately capture and label the bias. These challenges are difficult and will require a lot of research so that we can confidently create a model/system to solve our chosen problem.
+
 #### Jordan Shaheen:
 The capstone project aims to demonstrate the comprehensive computer science skills acquired during college through the creation of a Bias News Detector, leveraging current software techniques. The choice of a challenging project over a simpler one reflects the team's ambition to maximize their capabilities. The project benefits from a strong foundation in teamwork, software application development, and machine learning from both academic courses and co-op experiences, particularly in web development with Django. The plan involves using Django for website structure and Natural Language Processing to detect biased phrases in news articles, potentially extending to news videos if time permits. The project's success will be measured by its functionality and user-friendly interface, with GitHub commits tracking the team's consistent efforts and progress.
 
