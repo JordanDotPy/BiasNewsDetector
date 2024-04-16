@@ -61,7 +61,7 @@ What are the next steps for this project?
 
 
 ## Spring Final PPT Presentation
-[Spring Final Presentation Slides](https://docs.google.com/presentation/d/1co4_NATWwx58o8fNLTBt8JRdHQASSN4Hl-MjrWZ7DQw/edit#slide=id.g28fbe254194_0_80)
+[Spring Final Presentation Slides]  https://docs.google.com/presentation/d/1iVXy7lLQVvcYawKSG1_Hxu-TaMDuq9k1X4xTHf6QOpo/edit?usp=sharing
 
 ## Final Expo Poster
 Expo poster can be found within the OneDrive link below:
