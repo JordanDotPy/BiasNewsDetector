@@ -39,6 +39,10 @@ Our initial plan was to use a repository of hundreds of thousands of sentences t
 
 
 ## User Manual
+### How to Self-Host the Web Tool
+You must have Docker installed on your device in order to host the tool. Run `docker compose up` to build and run the web server on your device. The server will run at http://localhost:8000.
+
+### How to Use the Web Tool
 1. User submits a news article URL to the submission box.
 2. the Bias News Detector outputs the sentiment of each sentence within the submitted article.
 3. At the bottom of the output page, the user can submit feedback where they believe that the bias detector went wrong by pasting the sentence, its outputted bias, and the correct bias.
@@ -74,6 +78,9 @@ This project will allow me to gain new skills and grow many of the ones I alread
 #### Jordan Shaheen:
 The capstone project aims to demonstrate the comprehensive computer science skills acquired during college through the creation of a Bias News Detector, leveraging current software techniques. The choice of a challenging project over a simpler one reflects the team's ambition to maximize their capabilities. The project benefits from a strong foundation in teamwork, software application development, and machine learning from both academic courses and co-op experiences, particularly in web development with Django. The plan involves using Django for website structure and Natural Language Processing to detect biased phrases in news articles, potentially extending to news videos if time permits. The project's success will be measured by its functionality and user-friendly interface, with GitHub commits tracking the team's consistent efforts and progress.
 
+#### Tobias Knueven:
+This project will give me a chance to explore the increasingly relevant field of AI technology and challenge myself to think creatively about solving a difficult problem like detecting and measuring political bias in media. I hope to learn more about existing natural language processing and data analysis techniques, and how they can be combined with a user-friendly interface to create a both sophisticated and approachable tool. I'm looking forward to collaborating with our team to develop a software solution to the problem of rampant media bias and spark interest in improving media literacy.
+
 ### Final Self-Assessments
 Summary of final self-assessments conducted during the spring semester. Exclude confidential team assessments.
 
@@ -86,6 +93,11 @@ In my capstone project, I oversaw team progress and developed the front and back
 
 We successfully implemented a pre-trained large language model, SpaCy, and enhanced its sentiment analysis through custom rules that adjusted polarity scores based on sentence embedding and dependency parsing. One major challenge was ensuring the model's reliability across various news articles. Despite some initial difficulties and my lack of experience in natural language processing, we overcame these challenges, significantly improving my skills in web development, NLP, and collaboration, contributing to the success of the project.
 
+#### Tobias Knueven:
+In our capstone project, I contributed in three main ways. Towards the beginning, I took a deep dive dive into exploring the doc2vec algorithm and evaluating whether or not it could capture political bias in news articles. Later, I assisted in experimentation with filtering the sentiment output from SpaCy to better capture bias when we decided on that as our main tool. Finally, I developed some UI features to improve the usability of our tool, like a pop-up tooltip explaining the analysis when hovering over highlighted text in our analysis output.
+
+From this experience I gained exposure to a variety of NLP tools and techniques, like SpaCy, gensim, and the doc2vec text encoding algorithm. I think I succeeded in working collaboratively for the good of the team, which challenged me by forcing me to sacrifice some of my more ambitious goals for the project in favor of a simpler, smaller product.
+
 ## Summary of Hours and Justification
 Provide a detailed summary of hours worked by each team member, justifying the effort corresponding to at least 45 hours per member.
 
@@ -96,12 +108,17 @@ Jordan Shaheen:
 (refrence of work can be found within the link of my contributions that the GitHub repository tracked from commits).
 [Jordan Shaheen's Contribution](https://1drv.ms/i/s!AtwtZBOB204QgQzux6nj-V1dPXhw?e=4te9eZ)
 
-Cole Hutchins
+Cole Hutchins:
 15 hours on researching and studying ideas and tools mentioned in academic papers
 15 hours on trying to implement BOW, TF-IDF, and brainstorming and transistion to other ideas when we realized that idea was not sustainable
 15 hours of general work on code review, presentation slide creation, project direction,    
 5 hours on sentiment analysis on entities and subjects
 
+Tobias Knueven:
+15 hours on researching existing AI techniques and toolsets
+15 hours experimenting with developing a doc2vec pipeline for news article training data and developing preliminary metrics, eventually discarded in favor of SpaCy
+15 hours helping refine rule-based techniques using SpaCy and improve frontend UI
+5 hours assisting with project documentation
 
 ## Summary of Expenses
 There was $0 spent in the creation of this project.
