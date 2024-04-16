@@ -40,7 +40,7 @@ Our initial plan was to use a repository of hundreds of thousands of sentences t
 
 ## User Manual
 ### How to Self-Host the Web Tool
-You must have Docker installed on your device in order to host the tool. Run `docker compose up` to build and run the web server on your device. The server will run at http://localhost:8000.
+You must have Docker installed on your device in order to host the web server. Run `docker compose up` to setup the environment and run the web server on your device. The server will run at http://localhost:8000.
 
 ### How to Use the Web Tool
 1. User submits a news article URL to the submission box.
