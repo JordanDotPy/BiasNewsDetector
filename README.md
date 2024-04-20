@@ -81,6 +81,10 @@ The capstone project aims to demonstrate the comprehensive computer science skil
 #### Tobias Knueven:
 This project will give me a chance to explore the increasingly relevant field of AI technology and challenge myself to think creatively about solving a difficult problem like detecting and measuring political bias in media. I hope to learn more about existing natural language processing and data analysis techniques, and how they can be combined with a user-friendly interface to create a both sophisticated and approachable tool. I'm looking forward to collaborating with our team to develop a software solution to the problem of rampant media bias and spark interest in improving media literacy.
 
+#### Xander Hatton:
+
+I’m excited to work on this project due to a couple of factors. Probably foremost among them is the opportunity to use my knowledge and skills to help people with a real-world problem. One of the reasons I’ve really enjoyed the co-op program at UC is the chance to work on solving actual issues. I find myself most motivated when I can help people with my work. I’m also interested in the topic, as I’ve done work in similar areas during a past co-op. Also, my wife is a political scientist, so I’ve been familiar with some of these issues through her education as well.
+
 ### Final Self-Assessments
 Summary of final self-assessments conducted during the spring semester. Exclude confidential team assessments.
 
@@ -97,6 +101,13 @@ We successfully implemented a pre-trained large language model, SpaCy, and enhan
 In our capstone project, I contributed in three main ways. Towards the beginning, I took a deep dive dive into exploring the doc2vec algorithm and evaluating whether or not it could capture political bias in news articles. Later, I assisted in experimentation with filtering the sentiment output from SpaCy to better capture bias when we decided on that as our main tool. Finally, I developed some UI features to improve the usability of our tool, like a pop-up tooltip explaining the analysis when hovering over highlighted text in our analysis output.
 
 From this experience I gained exposure to a variety of NLP tools and techniques, like SpaCy, gensim, and the doc2vec text encoding algorithm. I think I succeeded in working collaboratively for the good of the team, which challenged me by forcing me to sacrifice some of my more ambitious goals for the project in favor of a simpler, smaller product.
+
+#### Xander Hatton:
+
+My areas of contribution to our project were largely related to user experience, quality assurance, and security concerns. I took the web infrastructure Jordan created and identified and fixed areas of concern for user experience. This allowed me to grow my skills in QA and web development. I also raised concerns with future development plans due to security concerns. The first major portion of my work on the project was identifying which web scraping option led to the best outcomes for our use case, with newspaper3k being the best option. Once the frontend was developed I added various UX features, like displaying errors and progress messages. Finally, I helped identify security concerns with our user feedback system.
+
+I gained a lot of exposure to machine learning through this project, along with advancing my QA skills on a project I was more directly involved in. This was the first team-based project I worked on after learning QA, and getting to implement what I learned was very rewarding. 
+
 
 ## Summary of Hours and Justification
 Provide a detailed summary of hours worked by each team member, justifying the effort corresponding to at least 45 hours per member.
@@ -119,6 +130,13 @@ Tobias Knueven:
 15 hours experimenting with developing a doc2vec pipeline for news article training data and developing preliminary metrics, eventually discarded in favor of SpaCy
 15 hours helping refine rule-based techniques using SpaCy and improve frontend UI
 5 hours assisting with project documentation
+
+Xander Hatton:
+15 hours investigating web scraping options. 
+10 hours developing comprehensive error handling. 
+15 hours implementing progress notifications (a large portion of this was spent trying to implement various loading bar schemes before deciding how to project’s infrastructure was setup made this infeasible). 
+3 hours discussing security concerns with user feedback system. 
+2 hours developing quote detection for the machine learning systems.
 
 ## Summary of Expenses
 There was $0 spent in the creation of this project.
